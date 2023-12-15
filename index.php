@@ -1,31 +1,42 @@
 <?php
-# Home
-if($_GET['page'] == 'home'){
-    require_once 'controller/home.php';
+if(isset($_GET['page'])){
+    switch($_GET['page']){
+        # Home
+        case 'home':
+            require_once 'controller/home.php';
+            break;
+        # Games
+        case 'addGame':
+            require_once 'controller/gameAdd.php';
+            break;
+        case 'games':
+            require_once 'controller/gameList.php';
+            break;
+        # Login
+        case 'login':
+            require_once 'controller/login.php';
+            break;
+        # Register
+        case 'home':
+            require_once 'controller/register.php';
+            break;
+        # User
+        case 'user':
+            require_once 'controller/userProfile.php';
+            break;
+        case 'editUser':
+            require_once 'controller/userProfileEdit.php';
+            break;
+        # Ranking
+        case 'ranking':
+            require_once 'controller/ranking.php';
+            break;
+        # Default
+        default:
+            header('Location: home');
+            break;
+    }
 
-# Games
-}elseif ($_GET['page'] == 'addGame'){
-    require_once 'controller/gameAdd.php';
-}elseif ($_GET['page'] == 'games'){
-    require_once 'controller/gameList.php';
-
-# Login
-}elseif ($_GET['page'] == 'login'){
-    require_once 'controller/login.php';
-
-# Register
-}elseif ($_GET['page'] == 'register'){
-    require_once 'controller/register.php';
-
-# User
-}elseif ($_GET['page'] == 'user'){
-    require_once 'controller/userProfile.php';
-}elseif ($_GET['page'] == 'editUser'){
-    require_once 'controller/userProfileEdit.php';
-# Ranking
-}elseif ($_GET['page'] == 'ranking'){
-    require_once 'controller/ranking.php';
-
-}else {
-    require_once 'controller/home.php';
+}else{
+    header('Location: home');
 }
