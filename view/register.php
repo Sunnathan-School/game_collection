@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/style/login.css">
+    <link rel="stylesheet" href="../assets/style/register.css">
     <title>Document</title>
 </head>
 
 <body>
 
     <div class="login">
-        <h1>Se connecter à Game Collection</h1>
+        <h1>Inscription</h1>
         <form action="" method="POST">
 
             <label for="nom">Nom :</label>
@@ -25,7 +25,7 @@
             <label for="confMdp">Confirmation du mot de passe :</label>
             <input type="password" name="confMdp">
 
-            <input id="connect" type="submit" value="S'IDENTIFIER" />
+            <input id="connect" type="submit" value="S'INSCRIRE" />
         </form>
         <a href="register">Se connecter</a>
     </div>
