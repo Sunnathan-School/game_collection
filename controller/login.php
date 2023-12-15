@@ -1,2 +1,2 @@
 <?php
-echo 'login';
+require_once './view/login.php';
