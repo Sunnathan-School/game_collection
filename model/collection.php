@@ -14,8 +14,8 @@ function getCollectionGames($userId){
 /**
  * Ajoute un jeu a la collection du joueur
  *
- * @param  mixed $gameId
- * @param  mixed $userId
+ * @param  int $gameId
+ * @param  int $userId
  * @return void
  */
 function addToCollection($gameId,$userId){}
@@ -23,8 +23,8 @@ function addToCollection($gameId,$userId){}
 /**
  * supprimer le jeu de la collection du joueur
  *
- * @param  mixed $gameId
- * @param  mixed $userId
+ * @param  int $gameId
+ * @param  int $userId
  * @return void
  */
 function removeFromCollection($gameId,$userId){}
