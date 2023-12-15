@@ -1,2 +1,2 @@
 <?php
-echo 'home';
+require_once './view/home.php';
