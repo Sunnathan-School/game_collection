@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +8,11 @@
 </head>
 <body>
     <div class="home_header">
-        <h2>Salut {USERNAME} !</h2>
-        <h2>Prêt à ajouter des jeux à ta collection ?</h2>
-        <img src="assets/img/zelda_home.jpeg" alt="">
+        <div class="head_text">
+            <h2>Salut {USERNAME} !</h2>
+            <h2>Prêt à ajouter des jeux à ta collection ?</h2>
+        </div>
+        <img src="assets/img/zelda_home.jpeg" alt="" class="head_img">
         
 
     </div>

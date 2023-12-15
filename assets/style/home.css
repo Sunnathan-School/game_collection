@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100;700&display=swap');
 body{
     margin: 0;
     padding: 0;
+    font-family: Barlow;
+    font-style: normal;
+    font-weight: 600; 
 }
 .home_header{
     background-color: red;
@@ -14,4 +18,15 @@ body{
 }
 .home_header h2{
     margin: 0;
+}
+.head_img{
+    /* filter: blur(50%); */
+}
+
+.head_text{
+    position: absolute;
+    height: 400px;
+    width: 50vw;
+    text-align: center;
+    color: white;
 }
