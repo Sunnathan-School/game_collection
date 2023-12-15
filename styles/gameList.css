@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* or any color you prefer */
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    /* Your header styles */
+}
+
+main {
+    width: 80%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+#search-form {
+    margin-bottom: 40px;
+}
+
+#search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    padding: 10px;
+    margin-right: 10px;
+    width: 300px; /* or as per your design */
+}
+
+#search-btn {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#game-library h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.game {
+    background: #1e1e1e; /* Dark background for the game card */
+    margin: 10px;
+    padding: 20px;
+    width: 300px; /* Fixed width or as per your design */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Card shadow */
+    text-align: center;
+}
+
+.game img {
+    width: 100%; /* Make image fill the card width */
+    height: auto;
+    border-radius: 5px; /* Rounded corners for the image */
+    margin-bottom: 20px;
+}
+
+.game h3 {
+    margin-bottom: 10px;
+}
+
+.game p {
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.game button {
+    background-color: #d64d4d; /* Button background color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background: #333;
+    color: #fff;
+}
