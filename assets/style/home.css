@@ -1,0 +1,17 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.home_header{
+    background-color: red;
+    width: 100vw;
+}
+.home_header img{
+    width: 100vw;
+    object-fit: cover;
+    object-position: center;
+    height: 400px;
+}
+.home_header h2{
+    margin: 0;
+}
