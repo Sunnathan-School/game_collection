@@ -22,33 +22,39 @@ main {
 
 #search-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Stack flex items vertically */
+    align-items: left; /* Align items in the center horizontally */
+    gap: 10px; /* Add space between input and button */
     margin-bottom: 20px;
 }
 
 #search-input {
     padding: 10px;
-    margin-right: 10px;
-    width: 300px; /* or as per your design */
+    width: 20%; /* Take full width of the container */
+    border-radius:10px;
 }
 
 #search-btn {
     padding: 10px;
-    background-color: #333;
+    background-color: #6c5ce7; /* Example purple color */
     color: #fff;
     border: none;
     cursor: pointer;
+    width: 10%; /* Example width, adjust as needed */
+    border-radius:10px;
+    font-weight: bold;
 }
 
+
 #game-library h2 {
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
 }
 
 .game-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .game {
@@ -58,7 +64,30 @@ main {
     width: 300px; /* Fixed width or as per your design */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Card shadow */
-    text-align: center;
+    text-align: left;
+    color:aqua;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.game-overlay {
+    position: absolute;
+    top: 50%; /* Start the overlay halfway down the container */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.75) 100%); /* Gradient from transparent to semi-transparent black */
+    z-index: 1; /* Below the text content but above the background image */
+}
+
+
+/* Ensure that all content is positioned above the overlay */
+.game h3,
+.game p,
+.game button {
+    position: relative;
+    z-index: 2; /* Above the overlay */
 }
 
 .game img {
@@ -78,13 +107,14 @@ main {
 }
 
 .game button {
-    background-color: #d64d4d; /* Button background color */
+    background-color: #6c5ce7; /* Button background color */
     color: #fff;
     border: none;
     padding: 10px 20px;
     text-transform: uppercase;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 footer {
