@@ -13,8 +13,23 @@
  * @param  array $platform Liste des plateforms du jeu
  * @return void
  */
-function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl,$platform){
+function addGame($pdo, $gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl, $platforms) {
     
+    $stmt = $pdo->prepare("INSERT INTO JEUX (nom_jeux, description_jeux, editeur_jeux, date_sortie_jeux, couverture_url_jeux, site_url_jeux) 
+                            VALUES (:gameName, :gameDesc, :gameEditor, :gameRelease, :gameCoverUrl, :gameWebUrl)");
+    
+    
+    $stmt->bindParam(':gameName', $gameName);
+    $stmt->bindParam(':gameDesc', $gameDesc);
+    $stmt->bindParam(':gameEditor', $gameEditor);
+    $stmt->bindParam(':gameRelease', $gameRelease);
+    $stmt->bindParam(':gameCoverUrl', $gameCoverUrl);
+    $stmt->bindParam(':gameWebUrl', $gameWebUrl);
+
+    
+    $stmt->execute();
+
+  
 }
 
 /**
