@@ -45,12 +45,6 @@ function editGame($gameId, $gameName, $gameDesc, $gameEditor, $gameRelease, $gam
  *
  * @return void
  */
-function getGames($pdo) {
-    $games = [];
-    $stmt = $pdo->query('SELECT * FROM JEUX');
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        array_push($games, $row);
-    }
+function getGames() {
 
-    return $games;
 }

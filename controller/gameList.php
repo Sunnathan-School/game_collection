@@ -1,4 +1,4 @@
 <?php
-require_once 'model/game.php';
+require_once 'model/collection.php';
 require 'view/gameList.php';
 

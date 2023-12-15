@@ -30,6 +30,7 @@
     <section id="game-library">
         <h2>Mes jeux</h2>
         <div class="game-container">
+        
         <?php
             // Include your database connection here
             $host = 'localhost';
@@ -52,19 +53,41 @@
                 throw new \PDOException($e->getMessage(), (int)$e->getCode());
             }
 
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && isset($_POST['game_id'])){
+                $gameId = $_POST['game_id'];
+
+                //ajoute user_id plus tard
+                //$userId = $_POST['user_id']; 
+
+                addToCollection($pdo,$gameId);
+                
+                
+            }
+
+            
 
 
-            // Call the getGames function to retrieve the games
-            $games = getGames($pdo);
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
+                
+                $searchTerm = $_POST['search'];
+                $games = searchGamesByName($pdo, $searchTerm);
+            } else {
+                
+                $games = getCollectionGames($pdo);
+            }
 
-            // Loop through the games and output the HTML for each game
+
+            
             foreach ($games as $game) {
+                echo "<form method='post' class='game-form'>";
+                echo "<input type='hidden' name='game_id' value='" . $game['Id_jeux'] . "'>";
                 echo "<div class='game' style='background-image: url(\"" . htmlspecialchars($game['couverture_url_jeux']) . "\");'>";
                 echo "<div class='game-overlay'></div>";
                 echo "<h3>" . htmlspecialchars($game['nom_jeux']) . "</h3>";
                 echo "<p>" . htmlspecialchars($game['editeur_jeux']) . "</p>";
-                echo "<button>AJOUTER À LA BIBLIOTHÈQUE</button>";
+                echo "<button type='submit' name='add_collection'>AJOUTER À LA BIBLIOTHÈQUE</button>";
                 echo "</div>";
+                echo "</form>";
             }
             ?>
 

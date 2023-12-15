@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212; /* or any color you prefer */
+    background-color: #121212; 
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -22,25 +22,25 @@ main {
 
 #search-container {
     display: flex;
-    flex-direction: column; /* Stack flex items vertically */
-    align-items: left; /* Align items in the center horizontally */
-    gap: 10px; /* Add space between input and button */
+    flex-direction: column; 
+    align-items: left; 
+    gap: 10px; 
     margin-bottom: 20px;
 }
 
 #search-input {
     padding: 10px;
-    width: 20%; /* Take full width of the container */
+    width: 20%; 
     border-radius:10px;
 }
 
 #search-btn {
     padding: 10px;
-    background-color: #6c5ce7; /* Example purple color */
+    background-color: #6c5ce7; 
     color: #fff;
     border: none;
     cursor: pointer;
-    width: 10%; /* Example width, adjust as needed */
+    width: 10%; 
     border-radius:10px;
     font-weight: bold;
 }
@@ -54,46 +54,52 @@ main {
 .game-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: left;
+    
 }
 
 .game {
-    background: #1e1e1e; /* Dark background for the game card */
+    background: #1e1e1e; 
     margin: 10px;
     padding: 20px;
-    width: 300px; /* Fixed width or as per your design */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Card shadow */
+    height:325px;
+    width: 375px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
     text-align: left;
     color:aqua;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
 }
 
 .game-overlay {
     position: absolute;
-    top: 50%; /* Start the overlay halfway down the container */
+    top: 50%; 
     left: 0;
     right: 0;
     bottom: 0;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.75) 100%); /* Gradient from transparent to semi-transparent black */
-    z-index: 1; /* Below the text content but above the background image */
+    z-index: 1; 
 }
 
 
-/* Ensure that all content is positioned above the overlay */
+
 .game h3,
 .game p,
 .game button {
     position: relative;
-    z-index: 2; /* Above the overlay */
+    z-index: 2; 
+    margin-top: 0;
 }
 
 .game img {
-    width: 100%; /* Make image fill the card width */
+    width: 100%; 
     height: auto;
-    border-radius: 5px; /* Rounded corners for the image */
+    border-radius: 5px; 
     margin-bottom: 20px;
 }
 
@@ -107,15 +113,18 @@ main {
 }
 
 .game button {
-    background-color: #6c5ce7; /* Button background color */
+    background-color: #6c5ce7; 
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 13px 20px; 
     text-transform: uppercase;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    width: auto; 
+    align-self: flex-start; 
 }
+
 
 footer {
     text-align: center;
