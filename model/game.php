@@ -28,7 +28,7 @@ function removeGame($gameId){}
 /**
  * Modifie un jeu
  *
- * @param  mixed $gameId Identifiant du jeu
+ * @param  int $gameId Identifiant du jeu
  * @param  string $gameName Nom du jeu
  * @param  string $gameDesc Description du jeu
  * @param  string $gameEditor Editeur du jeur
