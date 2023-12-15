@@ -4,18 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/style/login.css">
     <title>Document</title>
 </head>
 
 <body>
 
     <div class="login">
+        <h1>Se connecter à Game Collection</h1>
         <form action="" method="POST">
-            Email :
+            <label for="email">Email :</label>
             <input type="text" name="email">
-            Mot de passe :
-            <input type="password" value="mdp">
+            <label for="mdp">Mot de passe :</label>
+            <input type="password" name="mdp">
+            <input id="connect" type="submit" value="SE CONNECTER" />
         </form>
+        <a href="register">S'inscrire</a>
     </div>
 
 
