@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <title>Ajouter un jeu à la bibliothèque</title>
     <link href="styles/gameAdd.css" rel="stylesheet" />
+    <script src="styles\gameAdd.js"> </script>
 </head>
 <body>
     <header>
@@ -79,7 +80,7 @@
             </div>
             
             
-            <button type="submit" id="submit-btn" name="add_game">AJOUTER LE JEU</button>
+            <button type="submit" id="submit-btn" name="add_game" disabled>AJOUTER LE JEU</button>
 
         </form>
     </main>
@@ -88,5 +89,6 @@
         <!-- Ajouter footer à la place -->
         Game Collection - 2023 - Tous droits réservés
     </footer>
+
 </body>
 </html>

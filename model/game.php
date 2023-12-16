@@ -47,6 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game']) && hash_e
 
     // Appeler votre fonction pour ajouter le jeu dans la BDD
     addGame($pdo, $gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl, $platforms);
+
+
+    //rafraichit pour avoir un formaulaire vide
+    header('Location: ' . $_SERVER['addGame']);
+    exit();
 }
 
 
