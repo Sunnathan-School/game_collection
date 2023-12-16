@@ -42,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game']) && hash_e
     $gameWebUrl = $_POST['game_web_url'] ?? '';
     $platforms = $_POST['platforms'] ?? []; // Permet d'avoir plusieurs cases à cocher en metant un tbaleau
 
+    // Validation de la date
+    $gameRelease = DateTime::createFromFormat('Y-m-d', $gameRelease) ? $gameRelease : 1-11-1111;
+
     // Appeler votre fonction pour ajouter le jeu dans la BDD
     addGame($pdo, $gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl, $platforms);
 }
