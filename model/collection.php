@@ -1,5 +1,58 @@
 <?php
 
+session_start();
+
+// Vérifiez le jeton CSRF
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+
+// remplacer par la suite
+$host = 'localhost';
+$db = 'jeux'; 
+$user = 'root';
+$pass = '';
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    throw new PDOException($e->getMessage(), (int)$e->getCode());
+}
+
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && isset($_POST['game_id'])){
+    $gameId = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
+
+    //ajoute user_id plus tard
+    //$userId = $_POST['user_id']; 
+
+    addToCollection($pdo,$gameId);
+    
+    
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
+    
+    $searchTerm = filter_var($_POST['search'], FILTER_SANITIZE_STRING);
+    $games = searchGamesByName($pdo, $searchTerm);
+} else {
+    
+    $games = getCollectionGames($pdo);
+}
+
+
 
 /**
  * Récupere les jeux dans la collection du joueur
@@ -11,7 +64,12 @@
 
 function getCollectionGames($pdo){
     $games = [];
-    $userId=1;
+
+    /* pas logique d'avoir l'userId à revoir
+    mettre userId plus tard*/
+    $userId=2;
+
+    
     $stmt = $pdo->prepare('SELECT j.* FROM JEUX j LEFT JOIN collectionner c ON j.id_jeux = c.Id_jeux AND c.Id_users = :userId WHERE c.Id_jeux IS NULL');
     $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
     $stmt->execute();
