@@ -1,0 +1,65 @@
+/* styles/view.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #121212;
+    color: white;
+}
+
+.game-update-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.game-info {
+    flex-basis: 60%;
+}
+
+.game-image {
+    flex-basis: 40%;
+}
+
+.game-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+h1 {
+    color: #e2e2e2;
+}
+
+.time-add-form,
+.game-remove-form {
+    margin-top: 20px;
+}
+
+.time-add-form input[type="number"],
+.game-remove-form button {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #6c5ce7;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+button:disabled {
+    background-color: #333;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
