@@ -4,12 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< Updated upstream
-=======
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
->>>>>>> Stashed changes
     <title>Mise à jour du jeu</title>
     <link rel="stylesheet" href="assets\style\gameUpdate.css">
 </head>
@@ -20,19 +17,6 @@
 
     <main class="game-update-container">
         <section class="game-info">
-<<<<<<< Updated upstream
-            <h1>Read dead redemption 2</h1>
-            <p>Jeu trop cool</p>
-            <p>Temps passé : 60 h</p>
-
-            <form class="time-add-form" action="updateGame.php" method="post">
-                <label for="time-spent">Ajouter du temps passé sur le jeu</label>
-                <input type="number" id="time-spent" name="time_spent" placeholder="60">
-                <button type="submit" name="add_time">AJOUTER</button>
-            </form>
-
-            <form class="game-remove-form" action="removeGame.php" method="post">
-=======
 
             <?php $gameDetails = getGameDetails();?>
 
@@ -48,26 +32,17 @@
             </form>
 
             <form class="game-remove-form" method="post">
->>>>>>> Stashed changes
                 <button type="submit" name="remove_game">SUPPRIMER LE JEU DE MA BIBLIOTHÈQUE</button>
             </form>
         </section>
 
         <section class="game-image">
-<<<<<<< Updated upstream
-            <img src="path_to_image/red-dead-redemption-2.jpg" alt="Read dead redemption 2">
-=======
             <img src="<?php echo htmlspecialchars($gameDetails['couverture_url_jeux']); ?>" alt="<?php echo htmlspecialchars($gameDetails['nom_jeux']); ?>">
->>>>>>> Stashed changes
         </section>
     </main>
 
     <footer>
-<<<<<<< Updated upstream
-        Game Collection - 2023 - Tous droits réservés
-=======
         <!-- Insérez votre footer -->
->>>>>>> Stashed changes
     </footer>
 </body>
 </html>

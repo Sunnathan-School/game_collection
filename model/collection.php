@@ -1,7 +1,5 @@
 <?php
 
-<<<<<<< Updated upstream
-=======
 session_start();
 
 // Vérifiez le jeton CSRF
@@ -39,8 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && 
 
     //ajoute user_id plus tard
     //$userId = $_POST['user_id']; 
+    $userId = 1; 
 
-    addToCollection($pdo,$gameId);
+    addToCollection($pdo,$userId,$gameId);
     
     
 }
@@ -62,7 +61,6 @@ if (isset($_POST['add_game']) && isset($_POST['game_id'])) {
      
 }
 
->>>>>>> Stashed changes
 
 /**
  * Récupere les jeux dans la collection du joueur
@@ -81,8 +79,35 @@ function getCollectionGames($userId){
  * @param  int $userId
  * @return void
  */
-function addToCollection($gameId,$userId){}
+function addToCollection($pdo,$userId, $gameId){
+    
+    // D'abord, vérifier si l'enregistrement existe déjà
+    $checkStmt = $pdo->prepare("SELECT * FROM collectionner WHERE Id_users = :userId AND Id_jeux = :gameId");
+    $checkStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $checkStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
+    $checkStmt->execute();
 
+    if ($checkStmt->rowCount() > 0) {
+        // L'enregistrement existe déjà, donc ne rien faire ou afficher un message
+        
+        return;
+    }
+
+    // Si l'enregistrement n'existe pas, procéder à l'insertion
+    try {
+        $insertStmt = $pdo->prepare("INSERT INTO collectionner (Id_users, Id_jeux, heures_jouees_collection, date_ajout_collection) VALUES (:userId, :gameId, 0, NOW())");
+        $insertStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $insertStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
+
+        if ($insertStmt->execute()) {
+            echo "Jeu bien ajouté à la collection.";
+        } else {
+            echo "Erreur lors de l'ajout du jeu.";
+        }
+    } catch (PDOException $e) {
+        echo "Erreur de la base de données : " . $e->getMessage();
+    }
+}
 /**
  * supprimer le jeu de la collection du joueur
  *
