@@ -18,17 +18,17 @@
     <main class="game-update-container">
         <section class="game-info">
 
-            <?php $gameDetails = getGameDetails();?>
+            <?php $gameDetails = getGames();?>
 
-            <h1><?php echo htmlspecialchars($gameDetails['nom_jeux']); ?></h1>
-            <p><?php echo htmlspecialchars($gameDetails['description_jeux']); ?></p>
-            <p>Temps passé : <?php echo htmlspecialchars($gameDetails['heures_jouees_collection'] ?? 0); ?>" </p>
+            <h1><?php echo htmlspecialchars($gameDetails['nom_jeux']?? null); ?></h1>
+            <p><?php echo htmlspecialchars($gameDetails['description_jeux'] ?? null); ?></p>
+            <p>Temps passé : <?php echo htmlspecialchars($gameDetails['heures_jouees_collection'] ?? 0); ?> </p>
             
 
             <form class="time-add-form" method="post">
                 <label for="time-spent">Ajouter du temps passé sur le jeu</label>
                 <input type="number" id="time-spent" name="time_spent" placeholder=<?php echo htmlspecialchars($gameDetails['heures_jouees_collection'] ?? 0); ?>>
-                <button type="submit" name="add_game">AJOUTER</button>
+                <button type="submit" name="add_time">AJOUTER</button>
             </form>
 
             <form class="game-remove-form" method="post">
@@ -37,7 +37,7 @@
         </section>
 
         <section class="game-image">
-            <img src="<?php echo htmlspecialchars($gameDetails['couverture_url_jeux']); ?>" alt="<?php echo htmlspecialchars($gameDetails['nom_jeux']); ?>">
+            <img src="<?php echo htmlspecialchars($gameDetails['couverture_url_jeux']); ?>" alt="<?php echo htmlspecialchars($gameDetails['nom_jeux'] ?? null); ?>">
         </section>
     </main>
 

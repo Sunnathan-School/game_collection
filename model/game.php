@@ -1,6 +1,12 @@
 <?php
 
-session_start();
+if(session_status() == PHP_SESSION_NONE) { 
+    session_start(); }
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+} 
+
 
 // Vérifiez le jeton CSRF
 if (empty($_SESSION['csrf_token'])) {
@@ -9,39 +15,31 @@ if (empty($_SESSION['csrf_token'])) {
 
 
 // remplacer par la suite
-$host = 'localhost';
-$db = 'jeux'; 
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+function getDatabaseConnection() {
+    $host = 'localhost';
+    $db = 'jeux'; 
+    $user = 'root';
+    $pass = '';
+    $charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ];
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
+    try {
+        return new PDO($dsn, $user, $pass, $options);
+    } catch (PDOException $e) {
+        throw new PDOException($e->getMessage(), (int)$e->getCode());
+    }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_time'])) {
-    $gameId = $_GET['game_id'];
-    $userId = 1; // Remplacez par l'ID de l'utilisateur actuel récupéré d'une session ou d'une autre méthode d'authentification
-    $gameTimePlay = $_POST['time_spent'];
+$pdo = getDatabaseConnection();
 
-    editGameTime($pdo, $gameId,$userId, $gameTimePlay);
-}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_game'])) {
-    $userId = 1; 
-    $gameId = $_GET['game_id']; 
 
-    removeGameFromCollection($pdo, $userId, $gameId);
-}
 
 /**
  * Ajoute un jeu
@@ -56,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_game'])) {
  * @return void
  */
 function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl,$platform){
-    
+    //meme fonction que dans collection.php / addToCollection()
 }
 
 /**
@@ -68,7 +66,9 @@ function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl,
  * @return void
  */
 
-function removeGame($pdo, $userId, $gameId){
+function removeGame($userId,$pdo,$gameId){
+
+
     try {
         $stmt = $pdo->prepare("DELETE FROM collectionner WHERE Id_users = :userId AND Id_jeux = :gameId");
         $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
@@ -96,7 +96,9 @@ function removeGame($pdo, $userId, $gameId){
  * @param int $gameTimePlay Temps passé sur le jeu
  * @return void
  */
-function editGameTime($pdo, $gameId,$userId, $gameTimePlay) {
+
+function editGameTime($gameTimePlay,$pdo,$gameId,$userId){
+
 
 
     try {
@@ -121,21 +123,14 @@ function editGameTime($pdo, $gameId,$userId, $gameTimePlay) {
 
 /**
  * Récupère un jeu
- *
+ * @param PDO $pdo L'objet de connexion à la base de données
+ * @param int $gameId Identifiant du jeu
+ * @param int $userId Identifiant de l'utilisateur
  * @return array
  */
 
-function getGames() {
+function getGame($pdo,$userId,$gameId) {
 
-    $gameId = isset($_GET['id']) ? $_GET['id'] : null;
-    //$userId = $_SESSION['user_id'] ?? null; 
-    
-
-    $game = null;
-    $timeSpent = 0;
-
-    //à supprimer par la suite
-    $userId=1;
 
     if ($gameId && $userId) {
         
@@ -157,4 +152,32 @@ function getGames() {
         exit;
     }
 
+}
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_time'])) {
+    $gameId = $_GET['game_id'];
+    $gameTimePlay = filter_var($_POST['time_spent'], FILTER_SANITIZE_STRING);
+
+    editGameTime($gameTimePlay,$pdo,$gameId,$userId);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_game'])) {
+    $gameId = $_GET['game_id']; 
+
+    removeGame($userId,$pdo,$gameId);
+}
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
+    
+    $searchTerm = filter_var($_POST['search'], FILTER_SANITIZE_STRING);
+    $games = searchGamesByName($pdo, $searchTerm,$userId);
+} else {
+    
+    $games = getGames($pdo,$userId);
 }

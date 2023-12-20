@@ -1,6 +1,14 @@
 <?php
 
-session_start();
+
+if(session_status() == PHP_SESSION_NONE) { 
+    session_start(); }
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+} 
+
+
 
 // Vérifiez le jeton CSRF
 if (empty($_SESSION['csrf_token'])) {
@@ -9,57 +17,33 @@ if (empty($_SESSION['csrf_token'])) {
 
 
 // remplacer par la suite
-$host = 'localhost';
-$db = 'jeux'; 
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+function getDatabaseConnection() {
+    $host = 'localhost';
+    $db = 'jeux'; 
+    $user = 'root';
+    $pass = '';
+    $charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ];
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
+    try {
+        return new PDO($dsn, $user, $pass, $options);
+    } catch (PDOException $e) {
+        throw new PDOException($e->getMessage(), (int)$e->getCode());
+    }
 }
 
+$pdo = getDatabaseConnection();
 
 
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && isset($_POST['game_id'])){
-    $gameId = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
 
-    //ajoute user_id plus tard
-    //$userId = $_POST['user_id']; 
-    $userId = 1; 
-
-    addToCollection($pdo,$userId,$gameId);
-    
-    
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
-    
-    $searchTerm = filter_var($_POST['search'], FILTER_SANITIZE_STRING);
-    $games = searchGamesByName($pdo, $searchTerm);
-} else {
-    
-    $games = getCollectionGames($pdo);
-}
-
-
-if (isset($_POST['add_game']) && isset($_POST['game_id'])) {
-    $gameId = $_POST['game_id'];
-    addToCollection($pdo, $gameId);
-    $_SESSION['success_message'] = "Jeu bien ajouté à la collection.";
-     
-}
 
 
 /**
@@ -68,9 +52,12 @@ if (isset($_POST['add_game']) && isset($_POST['game_id'])) {
  * @param  mixed $userId Identifiant de l'utilisateur
  * @return array
  */
-function getCollectionGames($userId){
+function getCollectionGames(){
+
 
 }
+
+
 
 /**
  * Ajoute un jeu a la collection du joueur
@@ -79,9 +66,10 @@ function getCollectionGames($userId){
  * @param  int $userId
  * @return void
  */
+
 function addToCollection($pdo,$userId, $gameId){
     
-    // D'abord, vérifier si l'enregistrement existe déjà
+
     $checkStmt = $pdo->prepare("SELECT * FROM collectionner WHERE Id_users = :userId AND Id_jeux = :gameId");
     $checkStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
     $checkStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
@@ -108,6 +96,8 @@ function addToCollection($pdo,$userId, $gameId){
         echo "Erreur de la base de données : " . $e->getMessage();
     }
 }
+
+
 /**
  * supprimer le jeu de la collection du joueur
  *
@@ -115,5 +105,28 @@ function addToCollection($pdo,$userId, $gameId){
  * @param  int $userId
  * @return void
  */
-function removeFromCollection($gameId,$userId){}
+function removeFromCollection($gameId,$userId){
+    //meme fonction que dans game.php / removeGame()
+}
 
+
+
+
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && isset($_POST['game_id'])){
+    $gameId = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
+    addToCollection($pdo,$userId,$gameId);
+    
+}
+
+
+
+if (isset($_POST['add_game']) && isset($_POST['game_id'])) {
+    $gameId = $_POST['game_id'];
+    addToCollection($pdo, $gameId,$userId);
+    $_SESSION['success_message'] = "Jeu bien ajouté à la collection.";
+     
+}
