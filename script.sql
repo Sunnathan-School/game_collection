@@ -69,20 +69,20 @@ VALUES ('Alex', 'Durand', 'alex@example.com', 'password123'),
 
 INSERT INTO `JEUX` (`Id_Jeu`, `Nom_Jeu`, `Desc_Jeu`, `Editeur_Jeu`, `Date_Sortie_Jeu`, `Couverture_Jeu`, `Site_Jeu`)
 VALUES (1, 'The Witcher 3: Wild Hunt', 'An open-world RPG set in a gritty fantasy universe', 'CD Projekt', '2015-05-18',
-        'https://th.bing.com/th/id/OIP.ESLUrniRRUtzAk-LMGNjAAAAAA?rs=1&pid=ImgDetMain',
+        'https://images-ext-2.discordapp.net/external/VS19xMYG00lGHOQ0BBtl3ndGmif9TTZrpaaSF5kVgJ4/%3Frs%3D1%26pid%3DImgDetMain/https/th.bing.com/th/id/OIP.ESLUrniRRUtzAk-LMGNjAAAAAA?format=webp&width=592&height=332',
         'https://thewitcher.com'),
        (2, 'Red Dead Redemption 2', 'An epic tale of life in America at the dawn of the modern age', 'Rockstar Games',
         '2018-10-26',
-        'https://th.bing.com/th/id/OIP.ecoMHvpEDcaJGEHooAQE4QAAAA?rs=1&pid=ImgDetMain',
+        'https://media.discordapp.net/attachments/1025298593982197783/1187746977010688101/OIP.jpg?ex=65980292&is=65858d92&hm=0e6dd72fc79ca279c771808b8a62ffb2306b89404c8214507fb224463caf518c&=&format=webp&width=592&height=332',
         'https://www.rockstargames.com/reddeadredemption2/'),
        (3, 'Super Mario Odyssey', 'Mario embarks on a new journey through unknown worlds', 'Nintendo', '2017-10-27',
-        'https://th.bing.com/th/id/R.fd3644a9d9258f4cea239d99df14af48?rik=p3dc0OPX9KLzKw&riu=http%3a%2f%2fimages.nintendolife.com%2fnews%2f2017%2f10%2fsuper_mario_odyssey_has_already_cleared_2_million_sales%2fattachment%2f0%2foriginal.jpg&ehk=cABXnhtGW9LOLL%2bYXYbVZJ31MZQ5%2bYH%2f5%2fpuNtvCh5w%3d&risl=&pid=ImgRaw&r=0',
+        'https://media.discordapp.net/attachments/1025298593982197783/1187747115720523826/R.jpg?ex=659802b3&is=65858db3&hm=f4205c1dd08316790b8621bc1524186e4780c3fcc87f4b1d9ad73c7dcbf761ab&=&format=webp&width=1362&height=681',
         'https://www.nintendo.com/games/detail/super-mario-odyssey-switch'),
        (4, 'Halo Infinite', 'The next chapter of the legendary Halo series', '343 Industries', '2021-12-08',
-        'https://th.bing.com/th/id/R.b88688beade9d2a55595c44a94d4051d?rik=qNwmqZp8c4mgUg&pid=ImgRaw&r=0',
+        'https://media.discordapp.net/attachments/1025298593982197783/1187747220930428928/R.jpg?ex=659802cc&is=65858dcc&hm=1fa5a92a1cee070c877f10107a8fad5b7f2e9b1a8b5c3453aec0ea64f9c47fff&=&format=webp&width=1210&height=681',
         'https://www.halowaypoint.com/en-us/games/halo-infinite'),
        (5, 'Cyberpunk 2077', 'An open-world, action-adventure story set in Night City', 'CD Projekt', '2020-12-10',
-        'https://th.bing.com/th/id/R.e70e98eee8f8f2eb33ca0ac0e7469e0a?rik=dlIDk%2bs642X81Q&pid=ImgRaw&r=0',
+        'https://media.discordapp.net/attachments/1025298593982197783/1187747352321204244/R.jpg?ex=659802ec&is=65858dec&hm=62d6af5d248ae02aa51c861eef1a91c895001c68cdebbd6f4936f6b6683db096&=&format=webp&width=851&height=681',
         'https://www.cyberpunk.net');
 
 
@@ -102,6 +102,6 @@ VALUES (1, 1, 120, '2021-04-05'),
        (4, 2, 200, '2020-12-17');
 
 INSERT INTO `disponible` (`Id_plateforme`, `Id_Jeu`, `N_Ordre_Plateforme`) VALUES
-                                                                               ('1', '5', '1'),
-                                                                               ('1', '2', '1'),
-                                                                               ('5', '5', '2');
+    ('1', '5', '1'),
+    ('1', '2', '1'),
+    ('5', '5', '2');
