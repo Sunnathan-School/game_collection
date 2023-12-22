@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212;
+    background-color: #211F2A;
+    ;
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -15,7 +16,8 @@ main {
 
 
 .form-group {
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
+
 }
 
 .form-group label {
@@ -24,23 +26,23 @@ main {
 }
 
 .form-group input[type="text"] {
-    width: 100%;
-    padding: .5em;
+    width: 20%;
+    padding: 0.5em;
     border-radius: 5px;
     border: none;
-    background-color: #333;
+    background-color: #2B2F40;
     color: #fff;
 }
 
 #submit-btn {
-    padding: 1em;
-    background-color: #6c5ce7; 
+    padding: 0.75em;
+    background-color: #6757D6; 
     color: #fff;
     border: none;
     cursor: pointer;
     text-transform: uppercase;
     display: block;
-    width: 100%;
+    width: 13%;
     border-radius: 5px;
     transition: background-color 0.3s; 
 }
@@ -54,39 +56,43 @@ main {
 footer {
     text-align: center;
     padding: 20px 0;
-    background: #333;
+    background: #2B2F40;
     color: #fff;
 }
 
+.form-group input{
+    width: 20%;
+}
 
-.form-group select, .form-group textarea {
-    width: 100%;
+.form-group select,.form-group input, .form-group textarea {
     padding: .5em;
     border-radius: 5px;
     border: none;
-    background-color: #333;
+    background-color: #2B2F40;
     color: #fff;
 }
 
 .form-group select[multiple] {
+    width: 55%;
     height: auto; 
 }
 
 .form-group textarea {
+    width: 55%;
     height: 100px; 
 }
 
 
-.checkbox-group {
+.checkbox-group div {
     display: flex;
-    flex-direction: column;
+    align-items: center; 
+    margin-top: 1em; 
 }
 
-.checkbox-group div {
-    margin-bottom: 0.5em;
-}
+
 
 .checkbox-group label {
+    flex: 0.1; 
     margin-left: 0.5em;
 }
 
