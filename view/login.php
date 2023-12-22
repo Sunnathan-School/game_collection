@@ -14,9 +14,9 @@
         <h1>Se connecter à Game Collection</h1>
         <form action="" method="POST">
             <label for="email">Email :</label>
-            <input type="text" name="email">
+            <input type="text" name="email" id="email" required>
             <label for="mdp">Mot de passe :</label>
-            <input type="password" name="mdp">
+            <input type="password" name="mdp" id="mdp" required>
             <input id="connect" type="submit" value="SE CONNECTER" />
         </form>
         <a href="register">S'inscrire</a>

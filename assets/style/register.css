@@ -44,12 +44,12 @@ body {
 
 .login form input {
     height: 36px;
-    width: 100%;
+    width: calc(100% - 10px);
     border-radius: 5px;
     background: #2B2F40;
     border: 0;
-    color: white;
     padding-left: 10px;
+    color: white;
 }
 
 .login #connect {
