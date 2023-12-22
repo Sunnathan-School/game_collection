@@ -20,7 +20,6 @@
     <h1>Ajouter un jeu à sa bibliothèque</h1>
     <form id="search-form" method="post">
         <div id="search-container">
-            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <input id="search-input" type="text" name="search" placeholder="Rechercher un jeu">
             <button type="submit" id="search-btn">
                 RECHERCHER

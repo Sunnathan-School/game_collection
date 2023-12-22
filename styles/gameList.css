@@ -6,14 +6,12 @@ body {
     padding: 0;
 }
 
-header {
-    /* Your header styles */
-}
 
 main {
     width: 80%;
     margin: auto;
     padding-top: 20px;
+    
 }
 
 #search-form {
@@ -25,24 +23,30 @@ main {
     flex-direction: column; 
     align-items: left; 
     gap: 10px; 
+    width: 90%;
     margin-bottom: 20px;
 }
 
 #search-input {
-    padding: 10px;
+    padding: 9px;
     width: 20%; 
-    border-radius:10px;
+    border-style: none;
+    border-radius: 5px;
+    background-color:#2B2F40;
+    color: #ffffff;
 }
 
 #search-btn {
-    padding: 10px;
+    padding: 8px;
     background-color: #6c5ce7; 
     color: #fff;
     border: none;
     cursor: pointer;
     width: 10%; 
-    border-radius:10px;
+    border-radius:7px;
+    font-size: 11px;
     font-weight: bold;
+
 }
 
 
@@ -62,12 +66,12 @@ main {
     background: #1e1e1e; 
     margin: 10px;
     padding: 20px;
-    height:325px;
-    width: 375px; 
-    border-radius: 10px; 
+    height:250px;
+    width: 325px; 
+    border-radius: 6px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
     text-align: left;
-    color:aqua;
+    color:wite;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
@@ -116,7 +120,8 @@ main {
     background-color: #6c5ce7; 
     color: #fff;
     border: none;
-    padding: 13px 20px; 
+    padding: 11px 17px; 
+    font-size:12px;
     text-transform: uppercase;
     border-radius: 5px;
     cursor: pointer;
