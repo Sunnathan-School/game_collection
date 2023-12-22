@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-<?php
+require_once 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 if(isset($_GET['page'])){
     switch($_GET['page']){
         # Home
@@ -43,8 +45,3 @@ if(isset($_GET['page'])){
 }else{
     header('Location: home');
 }
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-?>
