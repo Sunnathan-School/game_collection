@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
 <title>Game Collection</title>
 <link href="styles/gameList.css" rel="stylesheet" />
 </head>
@@ -37,11 +36,11 @@
         foreach ($games as $game) {
             ?>
             <form method='post' class='game-form'>
-                <input type='hidden' name='game_id' value='<?php echo htmlspecialchars($game['Id_jeux']); ?>'>
-                <div class='game' style='background-image: url("<?php echo htmlspecialchars($game['couverture_url_jeux']); ?>");'>
+                <input type='hidden' name='game_id' value='<?php echo htmlspecialchars($game['Id_jeu']); ?>'>
+                <div class='game' style='background-image: url("<?php echo htmlspecialchars($game['Couverture_Jeu']); ?>");'>
                     <div class='game-overlay'></div>
-                    <h3><?php echo htmlspecialchars($game['nom_jeux']); ?></h3>
-                    <p><?php echo htmlspecialchars($game['editeur_jeux']); ?></p>
+                    <h3><?php echo htmlspecialchars($game['Nom_Jeu']); ?></h3>
+                    <p><?php echo htmlspecialchars($game['Editeur_Jeu']); ?></p>
                     <button type='submit' name='add_collection'>AJOUTER À LA BIBLIOTHÈQUE</button>
                 </div>
             </form>

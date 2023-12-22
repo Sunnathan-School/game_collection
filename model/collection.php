@@ -67,7 +67,7 @@ function getCollectionGames($pdo){
     $userId=2;
 
     
-    $stmt = $pdo->prepare('SELECT j.* FROM JEUX j LEFT JOIN collectionner c ON j.id_jeux = c.Id_jeux AND c.Id_users = :userId WHERE c.Id_jeux IS NULL');
+    $stmt = $pdo->prepare('SELECT j.* FROM JEUX j LEFT JOIN COLLECTIONS c ON j.Id_Jeu = c.Id_Jeu AND c.Id_Utilisateur = :userId WHERE c.Id_Jeu IS NULL');
     $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -88,7 +88,7 @@ function getCollectionGames($pdo){
 
 function searchGamesByName($pdo, $searchTerm) {
     $games = [];
-    $stmt = $pdo->prepare('SELECT * FROM JEUX WHERE nom_jeux LIKE :searchTerm');
+    $stmt = $pdo->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm');
     $searchTerm = "%{$searchTerm}%";
     $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
     $stmt->execute();
@@ -117,7 +117,7 @@ function searchGamesByName($pdo, $searchTerm) {
 function addToCollection($pdo, $gameId){
     $userId=1;
     // D'abord, vérifier si l'enregistrement existe déjà
-    $checkStmt = $pdo->prepare("SELECT * FROM collectionner WHERE Id_users = :userId AND Id_jeux = :gameId");
+    $checkStmt = $pdo->prepare("SELECT * FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
     $checkStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
     $checkStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
     $checkStmt->execute();
@@ -130,7 +130,7 @@ function addToCollection($pdo, $gameId){
 
     // Si l'enregistrement n'existe pas, procéder à l'insertion
     try {
-        $insertStmt = $pdo->prepare("INSERT INTO collectionner (Id_users, Id_jeux, heures_jouees_collection, date_ajout_collection) VALUES (:userId, :gameId, 0, NOW())");
+        $insertStmt = $pdo->prepare("INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection) VALUES (:userId, :gameId, 0, NOW())");
         $insertStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $insertStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
 
