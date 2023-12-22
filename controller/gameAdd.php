@@ -1,4 +1,10 @@
 <?php
+
+if (!isset($_SESSION['userID'])){
+    header("Location: login");
+    exit();
+}
+
 require_once 'model/game.php';
 require_once 'model/database.php';
 
@@ -18,8 +24,5 @@ if (isset($_POST['game_name']) &&
     header('Location: games');
     exit();
 }
-
-
-
 
 require 'view/gameAdd.php';
