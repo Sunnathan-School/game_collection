@@ -3,4 +3,5 @@ if (!isset($_SESSION['userID'])){
     header("Location: login");
     exit();
 }
-echo 'gameList';
+require_once 'model/collection.php';
+require 'view/gameList.php';

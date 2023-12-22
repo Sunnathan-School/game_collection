@@ -7,9 +7,8 @@
  * @param  mixed $userId Identifiant de l'utilisateur
  * @return array
  */
-function getCollectionGames($userId){
+function getCollectionGames($userId){}
 
-}
 
 /**
  * Ajoute un jeu a la collection du joueur
@@ -18,7 +17,9 @@ function getCollectionGames($userId){
  * @param  int $userId
  * @return void
  */
-function addToCollection($gameId,$userId){}
+function addToCollection($pdo, $gameId){}
+    
+
 
 /**
  * supprimer le jeu de la collection du joueur
