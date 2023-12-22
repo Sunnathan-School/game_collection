@@ -1,60 +1,5 @@
 <?php
 
-// Vérifiez le jeton CSRF
-session_start();
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-// Connexion à la base de donnée partira par la suite
-
-
-$host = 'localhost';
-$db = 'jeux'; // This is your database name
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
-}
-
-
-//vérifier que le POST a été fait avant d'ajouter un jeu
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game']) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-
-    $gameName = $_POST['game_name'] ?? '';
-    $gameDesc = $_POST['game_desc'] ?? '';
-    $gameEditor = $_POST['game_editor'] ?? '';
-    $gameRelease = $_POST['game_release'] ?? '';
-    $gameCoverUrl = $_POST['game_cover_url'] ?? '';
-    $gameWebUrl = $_POST['game_web_url'] ?? '';
-    $platforms = $_POST['platforms'] ?? []; // Permet d'avoir plusieurs cases à cocher en metant un tbaleau
-
-    // Validation de la date
-    $gameRelease = DateTime::createFromFormat('Y-m-d', $gameRelease) ? $gameRelease : 1-11-1111;
-
-    // Appeler votre fonction pour ajouter le jeu dans la BDD
-    addGame($pdo, $gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl, $platforms);
-
-
-    //rafraichit pour avoir un formaulaire vide
-    header('Location: ' . $_SERVER['addGame']);
-    exit();
-}
-
-
 /**
  * Ajoute un jeu
  *
@@ -64,42 +9,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_game']) && hash_e
  * @param  date $gameRelease Date de sortie du jeu
  * @param  string $gameCoverUrl Url de la couverture du jeu
  * @param  string $gameWebUrl Url du site web du jeu 
- * @param  array $platform Liste des plateforms du jeu
+ * @param  array $platforms Liste des plateforms du jeu
  * @return void
  */
+function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl, $platforms) {
+    global $bdd;
 
-
-function addGame($pdo, $gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl, $platforms) {
-
-    $gameName = filter_var($gameName, FILTER_SANITIZE_STRING);
-    $gameDesc = filter_var($gameDesc, FILTER_SANITIZE_STRING);
-    $gameEditor = filter_var($gameEditor, FILTER_SANITIZE_STRING);
+    $gameName = htmlspecialchars($gameName);
+    $gameDesc = htmlspecialchars($gameDesc);
+    $gameEditor = htmlspecialchars($gameEditor);
     $gameCoverUrl = filter_var($gameCoverUrl, FILTER_VALIDATE_URL);
     $gameWebUrl = filter_var($gameWebUrl, FILTER_VALIDATE_URL);
-    
-    $stmt = $pdo->prepare("INSERT INTO JEUX (nom_jeux, description_jeux, editeur_jeux, date_sortie_jeux, couverture_url_jeux, site_url_jeux) 
-                            VALUES (:gameName, :gameDesc, :gameEditor, :gameRelease, :gameCoverUrl, :gameWebUrl)");
-    
-    
-    $stmt->bindParam(':gameName', $gameName);
-    $stmt->bindParam(':gameDesc', $gameDesc);
-    $stmt->bindParam(':gameEditor', $gameEditor);
-    $stmt->bindParam(':gameRelease', $gameRelease);
-    $stmt->bindParam(':gameCoverUrl', $gameCoverUrl);
-    $stmt->bindParam(':gameWebUrl', $gameWebUrl);
 
-    
-    $stmt->execute();
 
-    $gameId = $pdo->lastInsertId();
+    $stmt = $bdd->prepare("INSERT INTO JEUX (Nom_Jeu, Desc_Jeu, Editeur_Jeu, Date_Sortie_Jeu, Couverture_Jeu, Site_Jeu) VALUES 
+                                            (:gameName, :gameDesc, :gameEditor, :gameRelease, :gameCoverUrl, :gameWebUrl)");
 
+    $stmt->execute([':gameName'=>$gameName,
+        ':gameDesc'=> $gameDesc,
+        ':gameEditor'=> $gameEditor,
+        ':gameRelease'=> $gameRelease,
+        ':gameCoverUrl'=> $gameCoverUrl,
+        ':gameWebUrl'=> $gameWebUrl]);
+
+    $gameId = $bdd->lastInsertId();
+    $numOrdre = 1;
     // Insérer les plateformes dans la table appartenir
     foreach ($platforms as $platform) {
    
         $platform = filter_var($platform, FILTER_SANITIZE_STRING);
 
         // Recherche de l'ID de la plateforme
-        $platformStmt = $pdo->prepare("SELECT Id_plateforme FROM PLATEFORME WHERE nom_plateforme = :platform");
+        $platformStmt = $bdd->prepare("SELECT Id_plateforme FROM PLATEFORME WHERE Nom_Plateforme = :platform");
         $platformStmt->execute([':platform' => $platform]);
         $platformRow = $platformStmt->fetch(PDO::FETCH_ASSOC);
         
@@ -107,8 +48,9 @@ function addGame($pdo, $gameName, $gameDesc, $gameEditor, $gameRelease, $gameCov
             $platformId = $platformRow['Id_plateforme'];
             
             // Insertion dans la table appartenir
-            $appartenirStmt = $pdo->prepare("INSERT INTO appartenir (Id_jeux, Id_plateforme, Num_odre_plateforme) VALUES (:gameId, :platformId, 1)"); 
-            $appartenirStmt->execute([':gameId' => $gameId, ':platformId' => $platformId]);
+            $appartenirStmt = $bdd->prepare("INSERT INTO DISPONIBLE (Id_plateforme, Id_Jeu, N_Ordre_Plateforme) VALUES (:platformId,:gameId, :nOrdre)");
+            $appartenirStmt->execute([':gameId' => $gameId, ':platformId' => $platformId, ':nOrdre' => $numOrdre]);
+            $numOrdre++;
         }
     }
 }
@@ -141,6 +83,4 @@ function editGame($gameId, $gameName, $gameDesc, $gameEditor, $gameRelease, $gam
  *
  * @return void
  */
-function getGames() {
-
-}
+function getGames() {}
