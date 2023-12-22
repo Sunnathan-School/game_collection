@@ -1,4 +1,9 @@
 <?php
+
+require_once 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 if(isset($_GET['page'])){
     switch($_GET['page']){
         # Home
