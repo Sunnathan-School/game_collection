@@ -48,6 +48,8 @@ body {
     border-radius: 5px;
     background: #2B2F40;
     border: 0;
+    color: white;
+
 }
 
 .login #connect {

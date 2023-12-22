@@ -1,2 +1,2 @@
 <?php
-echo 'register';
+require_once 'view/register.php';

@@ -17,7 +17,7 @@ if(isset($_GET['page'])){
             require_once 'controller/login.php';
             break;
         # Register
-        case 'home':
+        case 'register':
             require_once 'controller/register.php';
             break;
         # User

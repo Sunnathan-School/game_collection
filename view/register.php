@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/style/register.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/style/register.css">
+    <title>Inscription</title>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
 
             <input id="connect" type="submit" value="S'INSCRIRE" />
         </form>
-        <a href="register">Se connecter</a>
+        <a href="login">Se connecter</a>
     </div>
 
 
