@@ -15,15 +15,15 @@
         <form action="" method="POST">
 
             <label for="nom">Nom :</label>
-            <input type="text" name="nom">
+            <input type="text" name="nom" id="nom" required>
             <label for="prenom">Prénom :</label>
-            <input type="text" name="prenom">
+            <input type="text" name="prenom" id="prenom" required>
             <label for="email">Email :</label>
-            <input type="text" name="email">
+            <input type="email" name="email" id="email" required>
             <label for="mdp">Mot de passe :</label>
-            <input type="password" name="mdp">
+            <input type="password" name="mdp" id="mdp" required>
             <label for="confMdp">Confirmation du mot de passe :</label>
-            <input type="password" name="confMdp">
+            <input type="password" name="confMdp" id="confMdp" required>
 
             <input id="connect" type="submit" value="S'INSCRIRE" />
         </form>
