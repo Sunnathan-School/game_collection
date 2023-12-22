@@ -49,7 +49,7 @@ body {
     background: #2B2F40;
     border: 0;
     color: white;
-
+    padding-left: 10px;
 }
 
 .login #connect {
