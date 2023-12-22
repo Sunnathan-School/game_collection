@@ -1,73 +1,16 @@
 <?php
 
-session_start();
-
-
-
-
-// remplacer par la suite
-$host = 'localhost';
-$db = 'jeux'; 
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
-}
-
-
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && isset($_POST['game_id'])){
-    $gameId = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
-
-    //ajoute user_id plus tard
-    //$userId = $_POST['user_id']; 
-
-    addToCollection($pdo,$gameId);
-    
-    
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
-    
-    $searchTerm = filter_var($_POST['search'], FILTER_SANITIZE_STRING);
-    $games = searchGamesByName($pdo, $searchTerm);
-} else {
-    
-    $games = getCollectionGames($pdo);
-}
-
-
-
 /**
  * Récupere les jeux dans la collection du joueur
  *
  * @param  mixed $userId Identifiant de l'utilisateur
  * @return array
  */
-
-
-function getCollectionGames($pdo){
+function getCollectionGames($userId){
+    global $bdd;
     $games = [];
-
-    /* pas logique d'avoir l'userId à revoir
-    mettre userId plus tard*/
-    $userId=2;
-
     
-    $stmt = $pdo->prepare('SELECT j.* FROM JEUX j LEFT JOIN COLLECTIONS c ON j.Id_Jeu = c.Id_Jeu AND c.Id_Utilisateur = :userId WHERE c.Id_Jeu IS NULL');
+    $stmt = $bdd->prepare('SELECT jeux.* FROM jeux WHERE jeux.Id_Jeu NOT IN (SELECT collections.Id_Jeu FROM collections WHERE collections.Id_Utilisateur=:userId);');
     $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -85,12 +28,12 @@ function getCollectionGames($pdo){
  * @param string $searchTerm The term to search for in game names.
  * @return array An array of games matching the search term.
  */
-
-function searchGamesByName($pdo, $searchTerm) {
+function searchGamesByName($searchTerm) {
+    global $bdd;
     $games = [];
-    $stmt = $pdo->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm');
+    $stmt = $bdd->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm');
     $searchTerm = "%{$searchTerm}%";
-    $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
+    $stmt->bindParam(':searchTerm', htmlspecialchars($searchTerm), PDO::PARAM_STR);
     $stmt->execute();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -108,29 +51,10 @@ function searchGamesByName($pdo, $searchTerm) {
  * @param  int $userId
  * @return void
  */
+function addToCollection($gameId, $userId){
+    global $bdd;
 
-
-//rajouter $userId plus tard dans paramètre
-
-
-
-function addToCollection($pdo, $gameId){
-    $userId=1;
-    // D'abord, vérifier si l'enregistrement existe déjà
-    $checkStmt = $pdo->prepare("SELECT * FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
-    $checkStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $checkStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
-    $checkStmt->execute();
-
-    if ($checkStmt->rowCount() > 0) {
-        // L'enregistrement existe déjà, donc ne rien faire ou afficher un message
-        
-        return;
-    }
-
-    // Si l'enregistrement n'existe pas, procéder à l'insertion
-    try {
-        $insertStmt = $pdo->prepare("INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection) VALUES (:userId, :gameId, 0, NOW())");
+        $insertStmt = $bdd->prepare("INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection) VALUES (:userId, :gameId, 0, NOW())");
         $insertStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $insertStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
 
@@ -139,9 +63,6 @@ function addToCollection($pdo, $gameId){
         } else {
             echo "Erreur lors de l'ajout du jeu.";
         }
-    } catch (PDOException $e) {
-        echo "Erreur de la base de données : " . $e->getMessage();
-    }
 }
     
 

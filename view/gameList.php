@@ -36,11 +36,11 @@
         foreach ($games as $game) {
             ?>
             <form method='post' class='game-form'>
-                <input type='hidden' name='game_id' value='<?php echo htmlspecialchars($game['Id_jeu']); ?>'>
+                <input type='hidden' name='game_id' value='<?php echo $game['Id_jeu']; ?>'>
                 <div class='game' style='background-image: url("<?php echo htmlspecialchars($game['Couverture_Jeu']); ?>");'>
                     <div class='game-overlay'></div>
-                    <h3><?php echo htmlspecialchars($game['Nom_Jeu']); ?></h3>
-                    <p><?php echo htmlspecialchars($game['Editeur_Jeu']); ?></p>
+                    <h3><?php echo $game['Nom_Jeu']; ?></h3>
+                    <p><?php echo $game['Editeur_Jeu']; ?></p>
                     <button type='submit' name='add_collection'>AJOUTER À LA BIBLIOTHÈQUE</button>
                 </div>
             </form>
