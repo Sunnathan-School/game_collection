@@ -1,4 +1,3 @@
-<!-- view.php -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
     <title>Mise à jour du jeu</title>
     <link rel="stylesheet" href="assets\style\gameUpdate.css">
 </head>
@@ -18,16 +16,17 @@
     <main class="game-update-container">
         <section class="game-info">
 
-            <?php $gameDetails = getGames();?>
+            <?php $gameDetails = getGame($pdo);?>
 
-            <h1><?php echo htmlspecialchars($gameDetails['nom_jeux']?? null); ?></h1>
-            <p><?php echo htmlspecialchars($gameDetails['description_jeux'] ?? null); ?></p>
-            <p>Temps passé : <?php echo htmlspecialchars($gameDetails['heures_jouees_collection'] ?? 0); ?> </p>
+            <h1><?php echo $gameDetails['Nom_Jeu'] ?? ''; ?></h1>
+            <p><?php echo $gameDetails['Desc_Jeu'] ?? ''; ?></p>
+            <p>Temps passé : <?php echo $gameDetails['Heure_Jouees_Collection'] ?? '0' ?> heures</p>
             
 
             <form class="time-add-form" method="post">
-                <label for="time-spent">Ajouter du temps passé sur le jeu</label>
-                <input type="number" id="time-spent" name="time_spent" placeholder=<?php echo htmlspecialchars($gameDetails['heures_jouees_collection'] ?? 0); ?>>
+                <h2>Ajouter du temps passé sur le jeu</h2>
+                <label>Temps passé sur le jeu</label>
+                <input type="number" id="time-spent" name="time_spent" placeholder="<?php echo $gameDetails['Heure_Jouees_Collection'] ?? '0'; ?>">
                 <button type="submit" name="add_time">AJOUTER</button>
             </form>
 
@@ -37,7 +36,7 @@
         </section>
 
         <section class="game-image">
-            <img src="<?php echo htmlspecialchars($gameDetails['couverture_url_jeux']); ?>" alt="<?php echo htmlspecialchars($gameDetails['nom_jeux'] ?? null); ?>">
+            <img src="<?php echo $gameDetails['Couverture_Jeu'] ?? ''; ?>" alt="<?php echo $gameDetails['Nom_Jeu'] ?? ''; ?>">
         </section>
     </main>
 

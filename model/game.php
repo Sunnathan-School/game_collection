@@ -1,21 +1,9 @@
 <?php
 
-if(session_status() == PHP_SESSION_NONE) { 
-    session_start(); }
-
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-} 
-
-
-// Vérifiez le jeton CSRF
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
 
 
 // remplacer par la suite
-function getDatabaseConnection() {
+
     $host = 'localhost';
     $db = 'jeux'; 
     $user = 'root';
@@ -34,9 +22,9 @@ function getDatabaseConnection() {
     } catch (PDOException $e) {
         throw new PDOException($e->getMessage(), (int)$e->getCode());
     }
-}
 
-$pdo = getDatabaseConnection();
+
+
 
 
 
@@ -66,23 +54,20 @@ function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl,
  * @return void
  */
 
-function removeGame($userId,$pdo,$gameId){
+function removeGame($pdo){
 
+    //à suppriemr par la suite
 
-    try {
-        $stmt = $pdo->prepare("DELETE FROM collectionner WHERE Id_users = :userId AND Id_jeux = :gameId");
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
-        $stmt->execute();
+    $gameId=1;
+    $userId=1;
+   
+
+    $stmt = $pdo->prepare("DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
+    $stmt->bindParam(':userId', htmlspecialchars($userId), PDO::PARAM_INT);
+    $stmt->bindParam(':gameId', htmlspecialchars($gameId), PDO::PARAM_INT);
+    $stmt->execute();
         
-        if ($stmt->rowCount()) {
-            echo "Jeu supprimé de la collection avec succès.";
-        } else {
-            echo "Aucun jeu trouvé à supprimer.";
-        }
-    } catch (PDOException $e) {
-        echo "Erreur lors de la suppression du jeu : " . $e->getMessage();
-    }
+        
 }
 
 
@@ -97,25 +82,23 @@ function removeGame($userId,$pdo,$gameId){
  * @return void
  */
 
-function editGameTime($gameTimePlay,$pdo,$gameId,$userId){
+function editGameTime($pdo,$gameTimePlay){
+
+    //à suppriemr par la suite
+
+    $gameId=1;
+    $userId=1;
+    $pdo = getDatabaseConnection();
 
 
 
-    try {
-        $stmt = $pdo->prepare("UPDATE collectionner SET heures_jouees_collection = :gameTimePlay WHERE Id_jeux = :gameId AND Id_users = :userId");
-        $stmt->bindParam(':gameTimePlay', $gameTimePlay, PDO::PARAM_INT);
-        $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        if ($stmt->rowCount()) {
-            echo "Temps de jeu mis à jour avec succès.";
-        } else {
-            echo "Aucune mise à jour n'a été effectuée. Vérifiez que le jeu existe dans la collection de l'utilisateur.";
-        }
-    } catch (PDOException $e) {
-        echo "Erreur lors de la mise à jour du temps de jeu : " . $e->getMessage();
-    }
+    $stmt = $pdo->prepare("UPDATE COLLECTIONS SET Heure_Jouees_Collection = :gameTimePlay WHERE Id_Jeu = :gameId AND Id_Utilisateur = :userId");
+    $stmt->bindParam(':gameTimePlay', htmlspecialchars($gameTimePlay), PDO::PARAM_INT);
+    $stmt->bindParam(':gameId', htmlspecialchars($gameId), PDO::PARAM_INT);
+    $stmt->bindParam(':userId', htmlspecialchars($userId), PDO::PARAM_INT);
+    $stmt->execute();
+    
+  
 }
 
 
@@ -129,55 +112,28 @@ function editGameTime($gameTimePlay,$pdo,$gameId,$userId){
  * @return array
  */
 
-function getGame($pdo,$userId,$gameId) {
+function getGame($pdo) {
 
+    //à suppriemr par la suite
 
-    if ($gameId && $userId) {
+    $gameId=1;
+    $userId=1;
+ 
+
         
-        $stmt = $pdo->prepare("
-            SELECT j.*, c.heures_jouees_collection 
-            FROM JEUX j 
-            LEFT JOIN collectionner c ON j.Id_jeux = c.Id_jeux 
-            WHERE j.Id_jeux = :gameId AND c.Id_users = :userId
-        ");
-        
-        $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-        
-    } else {
-        echo "Aucun identifiant de jeu ou d'utilisateur fourni.";
-        exit;
-    }
-
-}
-
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_time'])) {
-    $gameId = $_GET['game_id'];
-    $gameTimePlay = filter_var($_POST['time_spent'], FILTER_SANITIZE_STRING);
-
-    editGameTime($gameTimePlay,$pdo,$gameId,$userId);
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_game'])) {
-    $gameId = $_GET['game_id']; 
-
-    removeGame($userId,$pdo,$gameId);
-}
-
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
+    $stmt = $pdo->prepare("
+        SELECT j.*, c.Heure_Jouees_Collection 
+        FROM JEUX j 
+        LEFT JOIN COLLECTIONS c ON j.Id_Jeu = c.Id_Jeu 
+        WHERE j.Id_Jeu = :gameId AND c.Id_Utilisateur = :userId
+    ");
     
-    $searchTerm = filter_var($_POST['search'], FILTER_SANITIZE_STRING);
-    $games = searchGamesByName($pdo, $searchTerm,$userId);
-} else {
+    $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
+    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $stmt->execute();
     
-    $games = getGames($pdo,$userId);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+        
+
 }
+

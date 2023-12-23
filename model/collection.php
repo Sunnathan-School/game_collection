@@ -1,21 +1,6 @@
 <?php
 
 
-if(session_status() == PHP_SESSION_NONE) { 
-    session_start(); }
-
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-} 
-
-
-
-// Vérifiez le jeton CSRF
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-
 // remplacer par la suite
 function getDatabaseConnection() {
     $host = 'localhost';
@@ -70,31 +55,16 @@ function getCollectionGames(){
 function addToCollection($pdo,$userId, $gameId){
     
 
-    $checkStmt = $pdo->prepare("SELECT * FROM collectionner WHERE Id_users = :userId AND Id_jeux = :gameId");
-    $checkStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $checkStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
+    $checkStmt = $pdo->prepare("SELECT * FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
+    $checkStmt->bindParam(':userId', htmlspecialchars($userId), PDO::PARAM_INT);
+    $checkStmt->bindParam(':gameId', htmlspecialchars($gameId), PDO::PARAM_INT);
     $checkStmt->execute();
 
-    if ($checkStmt->rowCount() > 0) {
-        // L'enregistrement existe déjà, donc ne rien faire ou afficher un message
-        
-        return;
-    }
 
-    // Si l'enregistrement n'existe pas, procéder à l'insertion
-    try {
-        $insertStmt = $pdo->prepare("INSERT INTO collectionner (Id_users, Id_jeux, heures_jouees_collection, date_ajout_collection) VALUES (:userId, :gameId, 0, NOW())");
-        $insertStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $insertStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
-
-        if ($insertStmt->execute()) {
-            echo "Jeu bien ajouté à la collection.";
-        } else {
-            echo "Erreur lors de l'ajout du jeu.";
-        }
-    } catch (PDOException $e) {
-        echo "Erreur de la base de données : " . $e->getMessage();
-    }
+    $insertStmt = $pdo->prepare("INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection) VALUES (:userId, :gameId, 0, NOW())");
+    $insertStmt->bindParam(':userId', htmlspecialchars($userId), PDO::PARAM_INT);
+    $insertStmt->bindParam(':gameId', htmlspecialchars($gameId), PDO::PARAM_INT);
+    $insertStmt->execute();
 }
 
 
@@ -115,18 +85,3 @@ function removeFromCollection($gameId,$userId){
 
 
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && isset($_POST['game_id'])){
-    $gameId = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
-    addToCollection($pdo,$userId,$gameId);
-    
-}
-
-
-
-if (isset($_POST['add_game']) && isset($_POST['game_id'])) {
-    $gameId = $_POST['game_id'];
-    addToCollection($pdo, $gameId,$userId);
-    $_SESSION['success_message'] = "Jeu bien ajouté à la collection.";
-     
-}
