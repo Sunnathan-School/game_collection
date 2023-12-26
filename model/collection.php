@@ -6,13 +6,13 @@
  * @param  mixed $userId Identifiant de l'utilisateur
  * @return array
  */
-function getCollectionGames($userId){
+function getGamesNotInCollection($userId){
     global $bdd;
+
     $games = [];
-    
-    $stmt = $bdd->prepare('SELECT jeux.* FROM jeux WHERE jeux.Id_Jeu NOT IN (SELECT collections.Id_Jeu FROM collections WHERE collections.Id_Utilisateur=:userId);');
-    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $stmt->execute();
+    $sql = "SELECT JEUX.* FROM JEUX WHERE JEUX.Id_Jeu NOT IN (SELECT COLLECTIONS.Id_Jeu FROM COLLECTIONS WHERE COLLECTIONS.Id_Utilisateur=:userId)";
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute([':userId'=>$userId]);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         array_push($games, $row);
@@ -24,17 +24,15 @@ function getCollectionGames($userId){
 /**
  * Searches for games in the player's collection by name.
  *
- * @param PDO $pdo PDO connection object.
- * @param string $searchTerm The term to search for in game names.
- * @return array An array of games matching the search term.
+ * @param string $searchTerm text a rechercher
+ * @return array
  */
 function searchGamesByName($searchTerm) {
     global $bdd;
     $games = [];
     $stmt = $bdd->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm');
     $searchTerm = "%{$searchTerm}%";
-    $stmt->bindParam(':searchTerm', htmlspecialchars($searchTerm), PDO::PARAM_STR);
-    $stmt->execute();
+    $stmt->execute([':searchTerm'=>htmlspecialchars($searchTerm)]);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         array_push($games, $row);

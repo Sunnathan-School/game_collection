@@ -58,12 +58,12 @@ main {
 .game-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: space-between;
+    align-items: center;
     
 }
 
 .game {
-    background: #1e1e1e; 
     margin: 10px;
     padding: 20px;
     height:250px;
@@ -71,8 +71,8 @@ main {
     border-radius: 6px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
     text-align: left;
-    color:wite;
-    background-repeat: no-repeat;
+    color:white;
+    background: #1e1e1e;
     background-size: cover;
     position: relative;
     justify-content: flex-end;

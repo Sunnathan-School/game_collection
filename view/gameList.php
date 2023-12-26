@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +34,7 @@
         foreach ($games as $game) {
             ?>
             <form method='post' class='game-form'>
-                <input type='hidden' name='game_id' value='<?php echo $game['Id_jeu']; ?>'>
+                <input type='hidden' name='game_id' value='<?php echo $game['Id_Jeu']; ?>'>
                 <div class='game' style='background-image: url("<?php echo htmlspecialchars($game['Couverture_Jeu']); ?>");'>
                     <div class='game-overlay'></div>
                     <h3><?php echo $game['Nom_Jeu']; ?></h3>
