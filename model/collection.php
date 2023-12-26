@@ -1,48 +1,46 @@
 <?php
 
-
-// remplacer par la suite
-function getDatabaseConnection() {
-    $host = 'localhost';
-    $db = 'jeux'; 
-    $user = 'root';
-    $pass = '';
-    $charset = 'utf8mb4';
-
-    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ];
-
-    try {
-        return new PDO($dsn, $user, $pass, $options);
-    } catch (PDOException $e) {
-        throw new PDOException($e->getMessage(), (int)$e->getCode());
-    }
-}
-
-$pdo = getDatabaseConnection();
-
-
-
-
-
-
-
 /**
  * Récupere les jeux dans la collection du joueur
  *
  * @param  mixed $userId Identifiant de l'utilisateur
  * @return array
  */
-function getCollectionGames(){
 
+function getGamesNotInCollection($userId){
+    global $bdd;
 
+    $games = [];
+    $sql = "SELECT JEUX.* FROM JEUX WHERE JEUX.Id_Jeu NOT IN (SELECT COLLECTIONS.Id_Jeu FROM COLLECTIONS WHERE COLLECTIONS.Id_Utilisateur=:userId)";
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute([':userId'=>$userId]);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        array_push($games, $row);
+    }
+
+    return $games;  
 }
 
+/**
+ * Searches for games in the player's collection by name.
+ *
+ * @param string $searchTerm text a rechercher
+ * @return array
+ */
+function searchGamesByName($searchTerm) {
+    global $bdd;
+    $games = [];
+    $stmt = $bdd->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm');
+    $searchTerm = "%{$searchTerm}%";
+    $stmt->execute([':searchTerm'=>htmlspecialchars($searchTerm)]);
 
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        array_push($games, $row);
+    }
+
+    return $games;
+}
 
 /**
  * Ajoute un jeu a la collection du joueur
@@ -52,20 +50,20 @@ function getCollectionGames(){
  * @return void
  */
 
-function addToCollection($pdo,$userId, $gameId){
-    
+function addToCollection($gameId, $userId){
+    global $bdd;
 
-    $checkStmt = $pdo->prepare("SELECT * FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
-    $checkStmt->bindParam(':userId', htmlspecialchars($userId), PDO::PARAM_INT);
-    $checkStmt->bindParam(':gameId', htmlspecialchars($gameId), PDO::PARAM_INT);
-    $checkStmt->execute();
+        $insertStmt = $bdd->prepare("INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection) VALUES (:userId, :gameId, 0, NOW())");
+        $insertStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $insertStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
 
-
-    $insertStmt = $pdo->prepare("INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection) VALUES (:userId, :gameId, 0, NOW())");
-    $insertStmt->bindParam(':userId', htmlspecialchars($userId), PDO::PARAM_INT);
-    $insertStmt->bindParam(':gameId', htmlspecialchars($gameId), PDO::PARAM_INT);
-    $insertStmt->execute();
+        if ($insertStmt->execute()) {
+            echo "Jeu bien ajouté à la collection.";
+        } else {
+            echo "Erreur lors de l'ajout du jeu.";
+        }
 }
+    
 
 
 /**

@@ -1,4 +1,10 @@
 <?php
+
+require_once 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+session_start();
+
 if(isset($_GET['page'])){
     switch($_GET['page']){
         # Home
@@ -20,7 +26,7 @@ if(isset($_GET['page'])){
             require_once 'controller/login.php';
             break;
         # Register
-        case 'home':
+        case 'register':
             require_once 'controller/register.php';
             break;
         # User
@@ -33,6 +39,10 @@ if(isset($_GET['page'])){
         # Ranking
         case 'ranking':
             require_once 'controller/ranking.php';
+            break;
+        # TODO: temporaire
+        case 'logout':
+            require_once 'TEMP_RESET_SESSION.php';
             break;
         # Default
         default:
