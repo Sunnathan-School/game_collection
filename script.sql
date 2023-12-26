@@ -60,6 +60,11 @@ CREATE TABLE DISPONIBLE
 
 
 -- Insertion des données
+INSERT INTO `UTILISATEURS` (`Pren_Utilisateur`, `Nom_Utilisateur`, `Email_Utilisateur`, `Mdp_Utilisateur`)
+VALUES ('Alex', 'Durand', 'alex@example.com', 'password123'),
+       ('Mila', 'Dupont', 'mila@example.com', 'password456'),
+       ('Lucas', 'Martin', 'lucas@example.com', 'password789');
+
 
 
 INSERT INTO `JEUX` (`Id_Jeu`, `Nom_Jeu`, `Desc_Jeu`, `Editeur_Jeu`, `Date_Sortie_Jeu`, `Couverture_Jeu`, `Site_Jeu`)
@@ -87,6 +92,14 @@ VALUES (1, 'PC'),
        (3, 'Mobile'),
        (4, 'Xbox'),
        (5, 'PlayStation');
+
+
+INSERT INTO `COLLECTIONS` (`Id_Jeu`, `Id_Utilisateur`, `Heure_Jouees_Collection`, `Date_Ajout_Collection`)
+VALUES (1, 1, 120, '2021-04-05'),
+       (2, 1, 85, '2022-08-16'),
+       (3, 2, 50, '2023-02-10'),
+       (3, 3, 30, '2021-12-15'),
+       (4, 2, 200, '2020-12-17');
 
 INSERT INTO `disponible` (`Id_plateforme`, `Id_Jeu`, `N_Ordre_Plateforme`) VALUES
     ('1', '5', '1'),
