@@ -39,11 +39,13 @@ function connectUser($userMail, $userPassword)
     $stmt->execute(['userMail' => $userMail]);
     $user = $stmt->fetch();
 
-    $pwdVerif = password_verify($userPassword,$user['Mdp_Utilisateur']);
-    if ($pwdVerif){
-        // connection effectuer
-        $_SESSION['userID'] = $user['Id_Utilisateur'];
-        return true;
+    if($user){
+        $pwdVerif = password_verify($userPassword,$user['Mdp_Utilisateur']);
+        if ($pwdVerif){
+            // connection effectuer
+            $_SESSION['userID'] = $user['Id_Utilisateur'];
+            return true;
+        }
     }
     return false;
 }
