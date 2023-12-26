@@ -9,9 +9,7 @@
 <link href="assets/style/gameList.css" rel="stylesheet" />
 </head>
 <body>
-<header>
-    <!-- Your header here -->
-</header>
+<?php require_once 'view/components/header.php'; ?>
 
 <main>
     <h1>Ajouter un jeu à sa bibliothèque</h1>

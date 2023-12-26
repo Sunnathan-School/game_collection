@@ -8,19 +8,11 @@
 </head>
 <body>
 
-    <header>
-        <div class="logo">Logo</div>
-        <div class="acces">
-            <a href="#">MA BIBLIOTHÈQUE</a>
-            <a href="#">AJOUTER UN JEU</a>
-            <a href="#">CLASSEMENT</a>
-            <a href="#">PROFIL</a>
-        </div>
-    </header>
+    <?php require_once 'view/components/header.php'; ?>
 
     <div class="bandeauAccueil">
         <div class="textBandeau">
-            <h2>SALUT {USERNAME} !</h2>
+            <h2>SALUT <?php echo $userName ?> !</h2>
             <h2>PRÊT À AJOUTER DES</h2>
             <h2>JEUX À TA COLLECTION ?</h2>
         </div>
