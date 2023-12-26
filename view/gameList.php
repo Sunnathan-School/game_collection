@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <title>Game Collection</title>
-<link href="styles/gameList.css" rel="stylesheet" />
+<link href="assets/style/gameList.css" rel="stylesheet" />
 </head>
 <body>
 <header>
