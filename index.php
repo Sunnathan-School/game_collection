@@ -18,6 +18,9 @@ if(isset($_GET['page'])){
         case 'games':
             require_once 'controller/gameList.php';
             break;
+        case 'updateGame':
+            require_once 'controller/gameUpdate.php';
+            break;
         # Login
         case 'login':
             require_once 'controller/login.php';

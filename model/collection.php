@@ -6,6 +6,7 @@
  * @param  mixed $userId Identifiant de l'utilisateur
  * @return array
  */
+
 function getGamesNotInCollection($userId){
     global $bdd;
 
@@ -41,7 +42,6 @@ function searchGamesByName($searchTerm) {
     return $games;
 }
 
-
 /**
  * Ajoute un jeu a la collection du joueur
  *
@@ -49,6 +49,7 @@ function searchGamesByName($searchTerm) {
  * @param  int $userId
  * @return void
  */
+
 function addToCollection($gameId, $userId){
     global $bdd;
 
@@ -72,5 +73,13 @@ function addToCollection($gameId, $userId){
  * @param  int $userId
  * @return void
  */
-function removeFromCollection($gameId,$userId){}
+function removeFromCollection($gameId,$userId){
+    //meme fonction que dans game.php / removeGame()
+}
+
+
+
+
+
+
 
