@@ -51,6 +51,25 @@ function connectUser($userMail, $userPassword)
 }
 
 /**
+ * Récupère le nom de l'utilisateur
+ * @param int $userId identifiant de l'utilisateur
+ * @return string nom de l'utilisateur
+ */
+function getUserName($userId){
+    global $bdd;
+    $sql = "SELECT Pren_Utilisateur FROM UTILISATEURS WHERE Id_Utilisateur = :userId";
+
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute(['userId' => $userId]);
+    $user = $stmt->fetch();
+
+    if ($user){
+        return strtoupper($user['Pren_Utilisateur']);
+    }
+    return null;
+}
+
+/**
  * Supprime l'utilisateur
  *
  * @param  int $userId Identifiant de l'utilisateur
