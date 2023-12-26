@@ -6,7 +6,6 @@
  * @param  mixed $userId Identifiant de l'utilisateur
  * @return array
  */
-
 function getGamesNotInCollection($userId){
     global $bdd;
 

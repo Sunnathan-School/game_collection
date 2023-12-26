@@ -3,10 +3,10 @@
 /**
  * Récupère le classement des joueurs
  *
- * @return void
+ * @return array
  */
 function getRanking() {
-
+    global $bdd;
     $sql = "SELECT u.Pren_Utilisateur,u.Nom_Utilisateur,MAX(j.Nom_Jeu) AS Jeu_Le_Plus_Joué,
     SUM(TIME_TO_SEC(c.Heure_Jouees_Collection)) AS Temps_Total_Passé
     FROM UTILISATEURS u JOIN COLLECTIONS c ON u.Id_Utilisateur = c.Id_Utilisateur
@@ -15,12 +15,8 @@ function getRanking() {
     ORDER BY Temps_Total_Passé DESC;";
 
    
-    $stmt = $pdo->prepare($sql);
+    $stmt = $bdd->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
       
 }
-
-$players = getRanking($bdd);
-
-?>
