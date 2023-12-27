@@ -76,9 +76,40 @@ function getUserGames($userId){
 INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
 LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
 LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
-WHERE collections.Id_Utilisateur=:userId";
+WHERE collections.Id_Utilisateur=:userId
+GROUP BY jeux.Id_Jeu";
 
     $stmt = $bdd->prepare($sql);
     $stmt->execute(['userId'=>$userId]);
     return $stmt->fetchAll();
+}
+
+function getUserGameData($userId,$gameId){
+    global $bdd;
+    $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, jeux.Desc_Jeu, HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees FROM collections 
+INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
+LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
+LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
+WHERE collections.Id_Utilisateur=:userId AND collections.Id_Jeu=:gameId";
+
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute(['userId'=>$userId, 'gameId'=>$gameId]);
+    return $stmt->fetch();
+}
+
+/**
+ * Supprime un jeu de la collection du joueur
+ *
+ * @param int $userId Identifiant de l'utilisateur
+ * @param int $gameId Identifiant du jeu à supprimer
+ * @return void
+ */
+function removeGame($userId,$gameId){
+    global $bdd;
+    $userId = htmlspecialchars($userId);
+    $gameId = htmlspecialchars($gameId);
+    $stmt = $bdd->prepare("DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
+    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
+    $stmt->execute();
 }

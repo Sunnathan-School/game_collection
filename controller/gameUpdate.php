@@ -1,49 +1,36 @@
 <?php
 
-require 'model\game.php';
-require 'model\collection.php';
-require 'view\gameUpdate.php';
+require 'model/game.php';
+require 'model/collection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_time'])) {
-    $gameId = filter_var($_GET['game_id'], FILTER_SANITIZE_STRING);
-    $gameTimePlay = filter_var($_POST['time_spent'], FILTER_SANITIZE_STRING);
+require_once 'model/database.php';
+require_once 'model/user.php';
+require_once 'model/game.php';
 
-    editGameTime($pdo,$gameTimePlay);
+
+if (isset($_GET['gameId'])){
+
+    if (isset($_POST['removeGame']) && $_POST['removeGame'] == $_GET['gameId']){
+
+        removeGame($_SESSION['userID'], $_GET['gameId']);
+        header("Location: home");
+    } elseif (isset($_POST['time_spent'])){
+        $gameCollectionsInfo = getUserGameData($_SESSION['userID'], $_GET['gameId']);
+
+        editGameTime($_SESSION['userID'],$_GET['gameId'],$gameCollectionsInfo['Heure_jouees'] + $_POST['time_spent']);
+        header("Location: home");
+    }
+    else{
+        $gameCollectionsInfo = getUserGameData($_SESSION['userID'], $_GET['gameId']);
+
+        require 'view/gameUpdate.php';
+
+    }
+
+
+
+}
+else{
+    header("Location: home");
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_game'])) {
-    $gameId = filter_var($_GET['game_id'], FILTER_SANITIZE_STRING); 
-
-    removeGame($pdo,$gameId);
-}
-
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['search'])) {
-    
-    $searchTerm = filter_var($_POST['search'], FILTER_SANITIZE_STRING);
-    $games = searchGamesByName($pdo,$searchTerm);
-} else {
-    
-    $games = getGame($pdo);
-}
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_collection']) && isset($_POST['game_id'])){
-    $gameId = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
-    addToCollection($pdo,$userId,$gameId);
-    
-}
-
-
-
-if (isset($_POST['add_game']) && isset($_POST['game_id'])) {
-    $gameId = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
-    addToCollection($pdo, $gameId,$userId);
-    $_SESSION['success_message'] = "Jeu bien ajouté à la collection.";
-     
-}
-
-?>
