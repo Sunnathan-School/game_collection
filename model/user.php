@@ -69,29 +69,16 @@ function getUserName($userId){
     return null;
 }
 
-/**
- * Supprime l'utilisateur
- *
- * @param  int $userId Identifiant de l'utilisateur
- * @return void
- */
-function removeUser($userId){}
 
-/**
- * Mise a jour de l'utilisateur
- *
- * @param  int $userId Identifiant de l'utilisateur
- * @param  string $userSurname Prénom de l'utilisateur
- * @param  string $userName Nom de l'utilisateur
- * @param  string $userMail Mail du client
- * @param  string $userPassword Mot de passe du client
- * @return void
- */
-function editUser($userId, $userSurname, $userName, $userMail, $userPassword){}
+function getUserGames($userId){
+    global $bdd;
+    $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, GROUP_CONCAT(plateforme.Nom_Plateforme) AS Plateformes, HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees FROM collections 
+INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
+LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
+LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
+WHERE collections.Id_Utilisateur=:userId";
 
-/**
- * Récupère l'ensemble des utilisateurs
- *
- * @return array
- */
-function getUsers(){}
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute(['userId'=>$userId]);
+    return $stmt->fetchAll();
+}
