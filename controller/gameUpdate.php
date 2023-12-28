@@ -19,6 +19,7 @@ if (isset($_GET['gameId'])){
 
         editGameTime($_SESSION['userID'],$_GET['gameId'],$gameCollectionsInfo['Heure_jouees'] + $_POST['time_spent']);
         header("Location: home");
+        //TODO: fix heures format in SQL !!
     }
     else{
         $gameCollectionsInfo = getUserGameData($_SESSION['userID'], $_GET['gameId']);

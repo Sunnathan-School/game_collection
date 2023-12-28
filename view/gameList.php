@@ -25,7 +25,7 @@
  
 
     <section id="game-library">
-        <h2>Mes jeux</h2>
+        <h2>Jeux disponibles</h2>
         <div class="game-container">
         
         <?php            

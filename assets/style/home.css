@@ -32,10 +32,9 @@
 }
 
 .list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-items: center;
 }
 
 .game {
@@ -48,7 +47,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
     text-align: left;
     color:white;
-    background-repeat: no-repeat;
     background-size: cover;
     position: relative;
     justify-content: flex-end;
