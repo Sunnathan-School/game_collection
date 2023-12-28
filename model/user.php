@@ -12,8 +12,6 @@
 function addUser($userSurname, $userName, $userMail, $userPassword){
     global $bdd;
 
-
-
     $sql = "INSERT INTO utilisateurs (Pren_Utilisateur, Nom_Utilisateur, Email_Utilisateur, Mdp_Utilisateur) VALUES (:prenUser, :nomUser, :mailUser, :pwdUser)";
 
     $stmt = $bdd->prepare($sql);
@@ -51,24 +49,20 @@ function connectUser($userMail, $userPassword)
 }
 
 /**
- * Récupère le nom de l'utilisateur
+ * Récupère les informations de l'utilisateur
  * @param int $userId identifiant de l'utilisateur
  * @return string nom de l'utilisateur
  */
-function getUserName($userId){
+function getUserData($userId){
     global $bdd;
-    $sql = "SELECT Pren_Utilisateur FROM UTILISATEURS WHERE Id_Utilisateur = :userId";
+    $sql = "SELECT * FROM UTILISATEURS WHERE Id_Utilisateur = :userId";
 
     $stmt = $bdd->prepare($sql);
     $stmt->execute(['userId' => $userId]);
     $user = $stmt->fetch();
 
-    if ($user){
-        return strtoupper($user['Pren_Utilisateur']);
-    }
-    return null;
+    return $user;
 }
-
 
 function getUserGames($userId){
     global $bdd;
@@ -109,7 +103,29 @@ function removeGame($userId,$gameId){
     $userId = htmlspecialchars($userId);
     $gameId = htmlspecialchars($gameId);
     $stmt = $bdd->prepare("DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
-    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $stmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
+    $stmt->bindParam(':userId', $userId);
+    $stmt->bindParam(':gameId', $gameId);
     $stmt->execute();
+}
+
+function removeUser($userId){
+    global $bdd;
+
+    $stmt = $bdd->prepare("DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId");
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+
+    $stmt = $bdd->prepare("DELETE FROM UTILISATEURS WHERE Id_Utilisateur = :userId");
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+
+
+
+}
+
+function editUser($userId, $nomUser,$preUser,$mailUser,$pwdUser){
+    global $bdd;
+    $sql = "UPDATE UTILISATEURS SET Pren_Utilisateur = :preUser, Nom_Utilisateur = :nomUser, Email_Utilisateur= :mailUser, Mdp_Utilisateur = :pwdUser WHERE Id_Utilisateur = :userId";
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute(['userId'=>$userId,'preUser'=>$preUser,'nomUser'=>$nomUser,'mailUser'=>$mailUser,'pwdUser'=>$pwdUser]);
 }

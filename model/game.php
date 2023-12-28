@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Ajoute un jeu
  *
@@ -11,7 +12,6 @@
  * @param  array $platforms Liste des plateforms du jeu
  * @return void
  */
-
 function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl, $gameWebUrl, $platforms) {
     global $bdd;
 
@@ -55,9 +55,6 @@ function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl,
     }
 }
 
-
-
-
 /**
  * Modifie temps passé sur un jeu
  *
@@ -66,7 +63,6 @@ function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl,
  * @param int $gameTimePlay Temps passé sur le jeu
  * @return void
  */
-
 function editGameTime($userId, $gameId, $gameTimePlay){
     global $bdd;
     $stmt = $bdd->prepare("UPDATE COLLECTIONS SET Heure_Jouees_Collection = :gameTimePlay WHERE Id_Jeu = :gameId AND Id_Utilisateur = :userId");
@@ -77,4 +73,3 @@ function editGameTime($userId, $gameId, $gameTimePlay){
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
 }
-

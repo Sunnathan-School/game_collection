@@ -20,3 +20,4 @@ function getRanking() {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
       
 }
+//TODO: refactoring
