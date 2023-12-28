@@ -29,20 +29,13 @@ if(isset($_GET['page'])){
         case 'register':
             require_once 'controller/register.php';
             break;
-        # User
-        case 'user':
-            require_once 'controller/userProfile.php';
-            break;
-        case 'editUser':
-            require_once 'controller/userProfileEdit.php';
-            break;
         # Ranking
         case 'ranking':
             require_once 'controller/ranking.php';
             break;
-        # TODO: temporaire
-        case 'logout':
-            require_once 'TEMP_RESET_SESSION.php';
+        # Profil
+        case 'profil':
+            require_once 'controller/userProfile.php';
             break;
         # Default
         default:

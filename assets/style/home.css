@@ -57,15 +57,15 @@
 .game-overlay {
     position: absolute;
     display: flex;
-    flex-direction: row;
     align-items: center;
-    top: 50%; 
+    top: 50%;
     left: 0;
     right: 0;
     bottom: 0;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.94) 11%, rgba(0, 0, 0, 0.78) 73%, rgba(255, 255, 255, 0) 100%);
-    border-radius: 10px; 
-    z-index: 1; 
+    border-radius: 10px;
+    justify-content: space-between;
+
 }
 
 .game h3,

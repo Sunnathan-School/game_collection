@@ -5,6 +5,6 @@
         <a href="home">MA BIBLIOTHÈQUE</a>
         <a href="games">AJOUTER UN JEU</a>
         <a href="ranking">CLASSEMENT</a>
-        <a href="#">PROFIL</a>
+        <a href="profil">PROFIL</a>
     </div>
 </header>
