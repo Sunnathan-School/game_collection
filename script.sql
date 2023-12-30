@@ -40,7 +40,7 @@ CREATE TABLE COLLECTIONS
 (
     Id_Jeu                  INT,
     Id_Utilisateur          INT,
-    Heure_Jouees_Collection TIME NOT NULL,
+    Heure_Jouees_Collection INT NOT NULL,
     Date_Ajout_Collection   DATE NOT NULL,
     PRIMARY KEY (Id_Jeu, Id_Utilisateur),
     FOREIGN KEY (Id_Jeu) REFERENCES JEUX (Id_Jeu),

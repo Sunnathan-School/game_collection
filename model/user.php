@@ -130,7 +130,7 @@ function getRanking()
 {
     global $bdd;
     $sql = "SELECT Pren_Utilisateur, Nom_Utilisateur, MAX(Nom_Jeu) AS Jeu_Le_Plus_Joué,
-    SUM(HOUR(collections.Heure_Jouees_Collection)) AS Temps_Total_Passé
+    SUM(collections.Heure_Jouees_Collection) AS Temps_Total_Passé
     FROM UTILISATEURS
     INNER JOIN COLLECTIONS ON UTILISATEURS.Id_Utilisateur = COLLECTIONS.Id_Utilisateur
     INNER JOIN JEUX ON COLLECTIONS.Id_Jeu = JEUX.Id_Jeu

@@ -68,10 +68,7 @@ function editGameTime($userId, $gameId, $gameTimePlay)
                 WHERE Id_Jeu = :gameId AND Id_Utilisateur = :userId";
     $stmt = $bdd->prepare($sql);
 
-    // TODO: migration hour to INT (sql)
-    $timePlayInHour = sprintf('%02d:%02d:%02d', $gameTimePlay, 0, 0);
-
-    $stmt->bindParam(':gameTimePlay', $timePlayInHour);
+    $stmt->bindParam(':gameTimePlay', $gameTimePlay);
     $stmt->bindParam(':gameId', $gameId);
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
@@ -88,7 +85,7 @@ function getUserGames($userId)
 
     $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu,
        GROUP_CONCAT(plateforme.Nom_Plateforme) AS Plateformes,
-       HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees
+       collections.Heure_Jouees_Collection AS Heure_jouees
         FROM collections
         INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
         LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
@@ -111,7 +108,7 @@ function getUserGameData($userId, $gameId)
 {
     global $bdd;
     $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, jeux.Desc_Jeu,
-       HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees FROM collections
+       collections.Heure_Jouees_Collection AS Heure_jouees FROM collections
 INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
 LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
 LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
