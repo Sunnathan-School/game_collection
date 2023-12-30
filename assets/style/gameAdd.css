@@ -43,11 +43,11 @@ main {
     transition: background-color 0.3s;
 }
 
-.form-group input{
+.form-group input {
     width: 20%;
 }
 
-.form-group select,.form-group input, .form-group textarea {
+.form-group select, .form-group input, .form-group textarea {
     padding: .5em;
     border-radius: 5px;
     border: none;
@@ -71,7 +71,6 @@ main {
     align-items: center;
     margin-top: 1em;
 }
-
 
 
 .checkbox-group label {

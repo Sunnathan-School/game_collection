@@ -1,5 +1,4 @@
 
-
 .bandeauAccueil {
     display: flex;
     align-items: center;
@@ -33,7 +32,7 @@
 
 .list {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     justify-items: center;
 }
 
@@ -41,12 +40,12 @@
     background: #1e1e1e;
     margin-bottom: 50px;
     padding: 20px;
-    height:300px;
+    height: 300px;
     width: 391px;
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     text-align: left;
-    color:white;
+    color: white;
     background-size: cover;
     position: relative;
     justify-content: flex-end;
@@ -69,9 +68,9 @@
 }
 
 .game h3,
-.game p{
+.game p {
     position: relative;
-    z-index: 2; 
+    z-index: 2;
     margin-block: 0;
 }
 
@@ -85,21 +84,18 @@
 .text h3 {
     max-height: 100px;
     overflow: hidden;
-    font-family: Barlow;
     font-size: 40px;
     font-weight: 700;
     line-height: 48px;
 }
 
 .text p {
-    font-family: Barlow;
     font-size: 16px;
     font-weight: 400;
     line-height: 19px;
 }
 
 #temps {
-    font-family: Barlow;
     font-size: 30px;
     font-weight: 400;
     line-height: 36px;
@@ -107,8 +103,8 @@
 }
 
 .game img {
-    width: 100%; 
+    width: 100%;
     height: auto;
-    border-radius: 5px; 
+    border-radius: 5px;
     margin-bottom: 20px;
 }

@@ -3,36 +3,46 @@
 /**
  * Récupere les jeux dans la collection du joueur
  *
- * @param  mixed $userId Identifiant de l'utilisateur
+ * @param int $userId Identifiant de l'utilisateur
  * @return array
  */
-function getGamesNotInCollection($userId){
+function getGamesNotInCollection($userId)
+{
     global $bdd;
 
     $games = [];
-    $sql = "SELECT JEUX.* FROM JEUX WHERE JEUX.Id_Jeu NOT IN (SELECT COLLECTIONS.Id_Jeu FROM COLLECTIONS WHERE COLLECTIONS.Id_Utilisateur=:userId)";
+    $sql = "SELECT JEUX.* FROM JEUX
+              WHERE JEUX.Id_Jeu NOT IN
+                    (SELECT COLLECTIONS.Id_Jeu FROM COLLECTIONS WHERE COLLECTIONS.Id_Utilisateur=:userId)";
     $stmt = $bdd->prepare($sql);
-    $stmt->execute([':userId'=>$userId]);
+    $stmt->execute([':userId' => $userId]);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         array_push($games, $row);
     }
 
-    return $games;  
+    return $games;
 }
 
 /**
- * Recupère les jeux que l'utilisateur ne possède pas et qui correspondent a un texte donné
+ * Recupère les jeux que l'utilisateur ne possède pas MAIS  qui correspondent a un texte donné
  *
+ * @param int $userId Identifiant de l'utilisateur
  * @param string $searchTerm text a rechercher
  * @return array
  */
-function searchGamesByName($userId, $searchTerm) {
+function searchGamesByName($userId, $searchTerm)
+{
     global $bdd;
     $games = [];
-    $stmt = $bdd->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm AND JEUX.Id_Jeu NOT IN (SELECT COLLECTIONS.Id_Jeu FROM COLLECTIONS WHERE COLLECTIONS.Id_Utilisateur=:userId)');
+    $stmt = $bdd->prepare('SELECT * FROM JEUX
+         WHERE Nom_Jeu LIKE :searchTerm
+           AND JEUX.Id_Jeu NOT IN
+               (SELECT COLLECTIONS.Id_Jeu FROM COLLECTIONS
+                WHERE COLLECTIONS.Id_Utilisateur=:userId)');
+
     $searchTerm = "%{$searchTerm}%";
-    $stmt->execute([':searchTerm'=>htmlspecialchars($searchTerm), 'userId'=>$userId]);
+    $stmt->execute([':searchTerm' => $searchTerm, 'userId' => $userId]);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         array_push($games, $row);
@@ -44,18 +54,20 @@ function searchGamesByName($userId, $searchTerm) {
 /**
  * Ajoute un jeu a la collection du joueur
  *
- * @param  int $gameId
- * @param  int $userId
+ * @param int $gameId Identifiant du jeu
+ * @param int $userId Identifiant de l'utilisateur
  * @return void
  */
-function addToCollection($gameId, $userId){
+function addToCollection($gameId, $userId)
+{
     global $bdd;
+    $sql = "INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection)
+                VALUES (:userId, :gameId, 0, NOW())";
+    $insertStmt = $bdd->prepare($sql);
+    $insertStmt->bindParam(':userId', $userId);
+    $insertStmt->bindParam(':gameId', $gameId);
 
-        $insertStmt = $bdd->prepare("INSERT INTO COLLECTIONS (Id_Utilisateur, Id_Jeu, Heure_Jouees_Collection, Date_Ajout_Collection) VALUES (:userId, :gameId, 0, NOW())");
-        $insertStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $insertStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
-
-        $insertStmt->execute();
+    $insertStmt->execute();
 }
 
 
@@ -66,11 +78,13 @@ function addToCollection($gameId, $userId){
  * @param int $gameId Identifiant du jeu à supprimer
  * @return void
  */
-function removeGameFromCollection($userId, $gameId){
+function removeGameFromCollection($userId, $gameId)
+{
     global $bdd;
     $userId = htmlspecialchars($userId);
     $gameId = htmlspecialchars($gameId);
-    $stmt = $bdd->prepare("DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
+    $sql = "DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId";
+    $stmt = $bdd->prepare($sql);
     $stmt->bindParam(':userId', $userId);
     $stmt->bindParam(':gameId', $gameId);
     $stmt->execute();

@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['userID'])){
+if (!isset($_SESSION['userID'])) {
     header("Location: login");
     exit();
 }
@@ -7,7 +7,7 @@ require_once 'model/user.php';
 require_once 'model/database.php';
 $alert_no_player = false;
 $players = getRanking();
-if (!$players){
+if (!$players) {
     $alert_no_player = true;
 }
-require 'view\ranking.php';
+require_once 'view\ranking.php';

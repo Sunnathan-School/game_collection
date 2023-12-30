@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Ajouter un jeu à la bibliothèque</title>
-    <link href="assets/style/gameAdd.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/style/commun.css"/>
+    <link rel="stylesheet" href="assets/style/gameAdd.css"/>
 </head>
 <body>
 <?php require_once 'view/components/header.php'; ?>
@@ -15,7 +16,8 @@
 
 
     <form id="game-add-form" method="post">
-        <p>Le jeu que vous souhaiter ajouter n'existe pas ! Vous pouvez le créer, celui-ci sera automatiquement ajouter a votre bibliothèque !</p>
+        <p>Le jeu que vous souhaiter ajouter n'existe pas !
+            Vous pouvez le créer, celui-ci sera automatiquement ajouter a votre bibliothèque !</p>
 
         <div class="form-group">
             <label for="game-name">Nom du jeu</label>

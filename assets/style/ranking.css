@@ -26,7 +26,6 @@ th, td {
 }
 
 
-
 /* Couleur pour les lignes impaires */
 tr:nth-child(odd) {
     background-color: #211F2A;

@@ -10,13 +10,16 @@ if (
     isset($_POST['email']) &&
     isset($_POST['mdp']) &&
     isset($_POST['confMdp'])
-){
-    # TODO : verif si email déja prise
-    if ($_POST['mdp'] != $_POST['confMdp']){
+) {
+    // TODO : verif si email déja prise
+    if ($_POST['mdp'] != $_POST['confMdp']) {
         $alert_pwd_non_identique = true;
 
-    }else{
-        addUser($_POST['prenom'],$_POST['nom'],$_POST['email'],$_POST['mdp']);
+    } else {
+        $prenom = htmlspecialchars($_POST['prenom']);
+        $nom = htmlspecialchars($_POST['nom']);
+        $mail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        addUser($prenom, $nom, $mail, $_POST['mdp']);
         $alert_user_created = true;
     }
 }

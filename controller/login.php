@@ -6,13 +6,14 @@ $alert_login_error = false;
 if (
     isset($_POST['email']) &&
     isset($_POST['mdp'])
-){
-    // récup l'user avec l'email
-    $connResult = connectUser($_POST['email'],$_POST['mdp']);
-    if ($connResult){
+) {
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+
+    $connResult = connectUser($email, $_POST['mdp']);
+    if ($connResult) {
         header("Location: home");
         exit();
-    }else{
+    } else {
         $alert_login_error = true;
 
     }
