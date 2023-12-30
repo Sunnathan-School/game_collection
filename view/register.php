@@ -22,6 +22,12 @@
         </div>
     <?php } ?>
 
+    <?php if ($alert_email_already_exist) { ?>
+        <div class="error_alert">
+            <p>Erreur ! Un compte avec cet email existe déjà !</p>
+        </div>
+    <?php } ?>
+
     <?php if ($alert_user_created) { ?>
         <div class="success_alert">
             <p>Votre compte a bien été crée, vous pouvez maintenant vous connecter.</p>

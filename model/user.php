@@ -51,6 +51,28 @@ function connectUser($userMail, $userPassword)
     return false;
 }
 
+
+/**
+ * Vérifie si un utilisateur possède déja cette email
+ * @param $userMail
+ * @return boolean
+ */
+function checkMailExist($userMail)
+{
+    global $bdd;
+    $sql = "SELECT utilisateurs.Email_Utilisateur FROM utilisateurs
+                                      WHERE utilisateurs.Email_Utilisateur = :userMail;";
+
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute(['userMail' => $userMail]);
+    $userMail = $stmt->fetch();
+
+    if ($userMail) {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Récupère les informations de l'utilisateur
  * @param int $userId identifiant de l'utilisateur

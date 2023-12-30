@@ -18,6 +18,11 @@
             <p>Changements effectués avec succès !</p>
         </div>
     <?php } ?>
+    <?php if ($alert_update_error) { ?>
+        <div class="error_alert" style="width: 90%">
+            <p>Erreur ! Un compte avec cet email existe déjà ou la confirmation de votre mot de passe n'est pas correcte !</p>
+        </div>
+    <?php } ?>
 
     <form action="profil" method="post" autocomplete="off">
         <label for="nom">Nom :</label>

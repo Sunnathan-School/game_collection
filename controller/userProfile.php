@@ -8,6 +8,7 @@ require_once "model/database.php";
 
 
 $alert_change_sucess = false;
+$alert_update_error = false;
 $userInfo = getUserData($_SESSION['userID']);
 if (isset($_POST['disconnect']) && $_POST['disconnect'] == 1) {
     session_unset();
@@ -28,11 +29,19 @@ if (isset($_POST['disconnect']) && $_POST['disconnect'] == 1) {
         $mail = filter_var($_POST['mail'], FILTER_SANITIZE_EMAIL);
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-        editUser($_SESSION['userID'], $nom, $prenom, $mail, $password);
+        if ($mail != $userInfo['Email_Utilisateur'] && checkMailExist($mail)) {
+            $alert_update_error = true;
 
-        $alert_change_sucess = true;
-        $userInfo = getUserData($_SESSION['userID']);
+        } else {
+            editUser($_SESSION['userID'], $nom, $prenom, $mail, $password);
 
+            $alert_change_sucess = true;
+            $userInfo = getUserData($_SESSION['userID']);
+        }
+
+
+    } else {
+        $alert_update_error = true;
     }
 }
 require_once "view/userProfile.php";
