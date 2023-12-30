@@ -71,7 +71,7 @@ VALUES (1, 'The Witcher 3: Wild Hunt', 'An open-world RPG set in a gritty fantas
         'https://th.bing.com/th/id/OIP.ecoMHvpEDcaJGEHooAQE4QAAAA?rs=1&pid=ImgDetMain',
         'https://www.rockstargames.com/reddeadredemption2/'),
        (3, 'Super Mario Odyssey', 'Mario embarks on a new journey through unknown worlds', 'Nintendo', '2017-10-27',
-        'https://th.bing.com/th/id/R.fd3644a9d9258f4cea239d99df14af48?rik=p3dc0OPX9KLzKw&riu=http%3a%2f%2fimages.nintendolife.com%2fnews%2f2017%2f10%2fsuper_mario_odyssey_has_already_cleared_2_million_sales%2fattachment%2f0%2foriginal.jpg&ehk=cABXnhtGW9LOLL%2bYXYbVZJ31MZQ5%2bYH%2f5%2fpuNtvCh5w%3d&risl=&pid=ImgRaw&r=0',
+        'https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000001130/c42553b4fd0312c31e70ec7468c6c9bccd739f340152925b9600631f2d29f8b5',
         'https://www.nintendo.com/games/detail/super-mario-odyssey-switch'),
        (4, 'Halo Infinite', 'The next chapter of the legendary Halo series', '343 Industries', '2021-12-08',
         'https://th.bing.com/th/id/R.b88688beade9d2a55595c44a94d4051d?rik=qNwmqZp8c4mgUg&pid=ImgRaw&r=0',
