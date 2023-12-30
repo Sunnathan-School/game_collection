@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/style/login.css">
+    <link rel="stylesheet" href="assets/style/alerts.css">
     <title>Connexion</title>
 </head>
 
@@ -12,6 +13,13 @@
 
     <div class="login">
         <h1>Se connecter à Game Collection</h1>
+
+        <?php if ($alert_login_error){ ?>
+        <div class="error_alert">
+            <p>Erreur de connexion ! Identifiants invalides</p>
+        </div>
+        <?php } ?>
+
         <form action="" method="POST">
             <label for="email">Email :</label>
             <input type="text" name="email" id="email" required>

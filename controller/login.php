@@ -2,7 +2,7 @@
 
 require_once 'model/user.php';
 require_once 'model/database.php';
-
+$alert_login_error = false;
 if (
     isset($_POST['email']) &&
     isset($_POST['mdp'])
@@ -13,7 +13,8 @@ if (
         header("Location: home");
         exit();
     }else{
-        echo "Problème lors de la connexion";
+        $alert_login_error = true;
+
     }
 }
 require_once 'view/login.php';

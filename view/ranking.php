@@ -6,11 +6,17 @@
     <meta http-equiv="Content-Type" content="charset=utf-8">
     <title>Classement des temps passés</title>
     <link rel="stylesheet" href="assets/style/ranking.css">
+    <link rel="stylesheet" href="assets/style/alerts.css">
 </head>
 <body>
     <?php require_once 'view/components/header.php'; ?>
     <div class="ranking-container">
         <h1>Classement des temps passés</h1>
+        <?php if ($alert_no_player){ ?>
+        <div class="error_alert">
+            <p>Désolé, il n'y a pas encore de joueur inscrit qui ne possède de jeu !</p>
+        </div>
+        <?php } ?>
         <table>
             <tr>
                 <th>Joueur</th>
@@ -20,15 +26,13 @@
             <?php foreach ($players as $player): ?>
             <tr>
             <td><?php echo $player['Pren_Utilisateur'] . " " . $player['Nom_Utilisateur']; ?></td>
-                <td><?php echo $player['Temps_Total_Passé']; ?></td>
+                <td><?php echo $player['Temps_Total_Passé']; ?> h</td>
                 <td><?php echo $player['Jeu_Le_Plus_Joué']; ?></td>
             </tr>
             <?php endforeach; ?>
         </table>
     </div>
-    <footer>
-        <!-- Ajouter footer à la place -->
-        
-    </footer>
+    <?php require_once 'view/components/footer.php'; ?>
+
 </body>
 </html>

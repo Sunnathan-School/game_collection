@@ -22,17 +22,17 @@ function getGamesNotInCollection($userId){
 }
 
 /**
- * Searches for games in the player's collection by name.
+ * Recupère les jeux que l'utilisateur ne possède pas et qui correspondent a un texte donné
  *
  * @param string $searchTerm text a rechercher
  * @return array
  */
-function searchGamesByName($searchTerm) {
+function searchGamesByName($userId, $searchTerm) {
     global $bdd;
     $games = [];
-    $stmt = $bdd->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm');
+    $stmt = $bdd->prepare('SELECT * FROM JEUX WHERE Nom_Jeu LIKE :searchTerm AND JEUX.Id_Jeu NOT IN (SELECT COLLECTIONS.Id_Jeu FROM COLLECTIONS WHERE COLLECTIONS.Id_Utilisateur=:userId)');
     $searchTerm = "%{$searchTerm}%";
-    $stmt->execute([':searchTerm'=>htmlspecialchars($searchTerm)]);
+    $stmt->execute([':searchTerm'=>htmlspecialchars($searchTerm), 'userId'=>$userId]);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         array_push($games, $row);
@@ -48,7 +48,6 @@ function searchGamesByName($searchTerm) {
  * @param  int $userId
  * @return void
  */
-
 function addToCollection($gameId, $userId){
     global $bdd;
 
@@ -56,29 +55,23 @@ function addToCollection($gameId, $userId){
         $insertStmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $insertStmt->bindParam(':gameId', $gameId, PDO::PARAM_INT);
 
-        if ($insertStmt->execute()) {
-            echo "Jeu bien ajouté à la collection.";
-        } else {
-            echo "Erreur lors de l'ajout du jeu.";
-        }
+        $insertStmt->execute();
 }
-    
 
 
 /**
- * supprimer le jeu de la collection du joueur
+ * Supprime un jeu de la collection du joueur
  *
- * @param  int $gameId
- * @param  int $userId
+ * @param int $userId Identifiant de l'utilisateur
+ * @param int $gameId Identifiant du jeu à supprimer
  * @return void
  */
-function removeFromCollection($gameId,$userId){
-    //meme fonction que dans game.php / removeGame()
+function removeGameFromCollection($userId, $gameId){
+    global $bdd;
+    $userId = htmlspecialchars($userId);
+    $gameId = htmlspecialchars($gameId);
+    $stmt = $bdd->prepare("DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
+    $stmt->bindParam(':userId', $userId);
+    $stmt->bindParam(':gameId', $gameId);
+    $stmt->execute();
 }
-
-
-
-
-
-
-

@@ -3,8 +3,11 @@ if (!isset($_SESSION['userID'])){
     header("Location: login");
     exit();
 }
-require_once 'model/ranking.php';
+require_once 'model/user.php';
 require_once 'model/database.php';
-
-$players = getRanking($bdd);
+$alert_no_player = false;
+$players = getRanking();
+if (!$players){
+    $alert_no_player = true;
+}
 require 'view\ranking.php';

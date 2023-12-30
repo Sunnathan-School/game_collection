@@ -64,50 +64,13 @@ function getUserData($userId){
     return $user;
 }
 
-function getUserGames($userId){
-    global $bdd;
-    $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, GROUP_CONCAT(plateforme.Nom_Plateforme) AS Plateformes, HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees FROM collections 
-INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
-LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
-LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
-WHERE collections.Id_Utilisateur=:userId
-GROUP BY jeux.Id_Jeu";
 
-    $stmt = $bdd->prepare($sql);
-    $stmt->execute(['userId'=>$userId]);
-    return $stmt->fetchAll();
-}
-
-function getUserGameData($userId,$gameId){
-    global $bdd;
-    $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, jeux.Desc_Jeu, HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees FROM collections 
-INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
-LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
-LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
-WHERE collections.Id_Utilisateur=:userId AND collections.Id_Jeu=:gameId";
-
-    $stmt = $bdd->prepare($sql);
-    $stmt->execute(['userId'=>$userId, 'gameId'=>$gameId]);
-    return $stmt->fetch();
-}
 
 /**
- * Supprime un jeu de la collection du joueur
- *
- * @param int $userId Identifiant de l'utilisateur
- * @param int $gameId Identifiant du jeu à supprimer
+ * Supprime l'utilisateur ainsi que les jeux qu'il possède
+ * @param $userId
  * @return void
  */
-function removeGame($userId,$gameId){
-    global $bdd;
-    $userId = htmlspecialchars($userId);
-    $gameId = htmlspecialchars($gameId);
-    $stmt = $bdd->prepare("DELETE FROM COLLECTIONS WHERE Id_Utilisateur = :userId AND Id_Jeu = :gameId");
-    $stmt->bindParam(':userId', $userId);
-    $stmt->bindParam(':gameId', $gameId);
-    $stmt->execute();
-}
-
 function removeUser($userId){
     global $bdd;
 
@@ -118,14 +81,44 @@ function removeUser($userId){
     $stmt = $bdd->prepare("DELETE FROM UTILISATEURS WHERE Id_Utilisateur = :userId");
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
-
-
-
 }
 
-function editUser($userId, $nomUser,$preUser,$mailUser,$pwdUser){
+/**
+ * Met a jour les informations de l'utilisateur
+ * @param $userId
+ * @param $nomUser
+ * @param $preUser
+ * @param $mailUser
+ * @param $pwdUser
+ * @return void
+ */
+function editUser($userId, $nomUser, $preUser, $mailUser, $pwdUser){
     global $bdd;
     $sql = "UPDATE UTILISATEURS SET Pren_Utilisateur = :preUser, Nom_Utilisateur = :nomUser, Email_Utilisateur= :mailUser, Mdp_Utilisateur = :pwdUser WHERE Id_Utilisateur = :userId";
     $stmt = $bdd->prepare($sql);
     $stmt->execute(['userId'=>$userId,'preUser'=>$preUser,'nomUser'=>$nomUser,'mailUser'=>$mailUser,'pwdUser'=>$pwdUser]);
+}
+
+
+/**
+ * Récupère le classement des joueurs
+ *
+ * @return array
+ */
+function getRanking() {
+    global $bdd;
+    $sql = "SELECT Pren_Utilisateur, Nom_Utilisateur, MAX(Nom_Jeu) AS Jeu_Le_Plus_Joué,
+    SUM(HOUR(collections.Heure_Jouees_Collection)) AS Temps_Total_Passé
+    FROM UTILISATEURS 
+    INNER JOIN COLLECTIONS ON UTILISATEURS.Id_Utilisateur = COLLECTIONS.Id_Utilisateur
+    INNER JOIN JEUX ON COLLECTIONS.Id_Jeu = JEUX.Id_Jeu 
+    GROUP BY UTILISATEURS.Id_Utilisateur
+    ORDER BY Temps_Total_Passé DESC
+    LIMIT 20;";
+
+
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 }

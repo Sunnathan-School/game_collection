@@ -56,7 +56,7 @@ function addGame($gameName, $gameDesc, $gameEditor, $gameRelease, $gameCoverUrl,
 }
 
 /**
- * Modifie temps passé sur un jeu
+ * Modifie temps passé sur un jeu pour un utilisateur
  *
  * @param int $gameId Identifiant du jeu
  * @param int $userId Identifiant de l'utilisateur
@@ -72,4 +72,42 @@ function editGameTime($userId, $gameId, $gameTimePlay){
     $stmt->bindParam(':gameId', $gameId);
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
+}
+
+/**
+ * Récupère les jeux que possède l'utilisateur
+ * @param $userId
+ * @return array|false
+ */
+function getUserGames($userId){
+    global $bdd;
+    $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, GROUP_CONCAT(plateforme.Nom_Plateforme) AS Plateformes, HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees FROM collections 
+INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
+LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
+LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
+WHERE collections.Id_Utilisateur=:userId
+GROUP BY jeux.Id_Jeu";
+
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute(['userId'=>$userId]);
+    return $stmt->fetchAll();
+}
+
+/**
+ * Récupère les informations conernant le temp de jeu de l'utilisateur
+ * @param $userId
+ * @param $gameId
+ * @return mixed
+ */
+function getUserGameData($userId, $gameId){
+    global $bdd;
+    $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, jeux.Desc_Jeu, HOUR(collections.Heure_Jouees_Collection) AS Heure_jouees FROM collections 
+INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
+LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
+LEFT JOIN plateforme ON disponible.Id_plateforme=plateforme.Id_plateforme
+WHERE collections.Id_Utilisateur=:userId AND collections.Id_Jeu=:gameId";
+
+    $stmt = $bdd->prepare($sql);
+    $stmt->execute(['userId'=>$userId, 'gameId'=>$gameId]);
+    return $stmt->fetch();
 }

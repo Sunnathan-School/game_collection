@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/style/register.css">
+    <link rel="stylesheet" href="assets/style/alerts.css">
     <title>Inscription</title>
 </head>
 
@@ -12,6 +13,17 @@
 
     <div class="login">
         <h1>Inscription</h1>
+        <?php if ($alert_pwd_non_identique){ ?>
+        <div class="error_alert">
+            <p>Erreur ! Mot de passe non identique.</p>
+        </div>
+        <?php } ?>
+
+        <?php if ($alert_user_created){ ?>
+        <div class="success_alert">
+            <p>Votre compte a bien été crée, vous pouvez maintenant vous connecter.</p>
+        </div>
+        <?php } ?>
         <form action="" method="POST">
 
             <label for="nom">Nom :</label>

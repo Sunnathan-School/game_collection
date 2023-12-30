@@ -23,6 +23,6 @@ if (isset($_POST['disconnect']) && $_POST['disconnect'] == 1){
             editUser($_SESSION['userID'], $_POST['nom'], $_POST['prenom'], $_POST['mail'], password_hash($_POST['password'], PASSWORD_DEFAULT));
             $userInfo = getUserData($_SESSION['userID']);
         }
-    }
+    }// TODO: quand utilisateur change d'info sauf MDP ==> ne pas changer le mdp !!!
 }
 require_once "view/userProfile.php";

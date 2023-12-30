@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/style/home.css">
+    <link rel="stylesheet" href="assets/style/alerts.css">
     <title>Accueil</title>
 </head>
 <body>
@@ -20,6 +21,11 @@
 
     <section id="game-library">
         <h2>Mes jeux</h2>
+        <?php if ($alert_no_games){ ?>
+        <div class="info_alert">
+            <p>Vous n'avez pas encore de jeu dans votre bibliothèque ! <a href="games">Cliquez ici pour en ajouter.</a></p>
+        </div>
+        <?php } ?>
         <div class="list">
             <?php foreach ($userGamesList as $game){?>
                 <a href="updateGame?gameId=<?php echo $game['Id_Jeu']?>">
@@ -37,7 +43,8 @@
     </section>
 
 
-    <footer></footer>
+    <?php require_once 'view/components/footer.php'; ?>
+
 
 </body>
 </html>

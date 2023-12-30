@@ -6,12 +6,14 @@ if (!isset($_SESSION['userID'])){
 }
 require_once 'model/database.php';
 require_once 'model/user.php';
-
+require_once 'model/game.php';
+$alert_no_games = false;
 $userName = strtoupper(getUserData($_SESSION['userID'])['Pren_Utilisateur']);
 $userGamesList = getUserGames($_SESSION['userID']);
 
-//var_dump($userGamesList);
-// TODO: gérer si joueur n'a pas de jeu
+if (!$userGamesList){
+    $alert_no_games = true;
+}
 
 require_once './view/home.php';
 

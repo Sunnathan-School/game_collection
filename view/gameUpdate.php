@@ -38,6 +38,7 @@
             <img src="<?php echo $gameCollectionsInfo['Couverture_Jeu'];?>" alt="">
         </div>
     </main>
+<?php require_once 'view/components/footer.php'; ?>
 
 </body>
 </html>
