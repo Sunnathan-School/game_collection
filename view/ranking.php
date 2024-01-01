@@ -28,8 +28,8 @@
         <?php foreach ($players as $player): ?>
             <tr>
                 <td><?php echo $player['Pren_Utilisateur'] . " " . $player['Nom_Utilisateur']; ?></td>
-                <td><?php echo $player['Temps_Total_Passé']; ?> h</td>
-                <td><?php echo $player['Jeu_Le_Plus_Joué']; ?></td>
+                <td><?php echo $player['Temps_Total_Passe']; ?> h</td>
+                <td><?php echo $player['Jeu_Le_Plus_Joue']; ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

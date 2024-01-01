@@ -151,13 +151,22 @@ function editUser($userId, $nomUser, $preUser, $mailUser, $pwdUser)
 function getRanking()
 {
     global $bdd;
-    $sql = "SELECT Pren_Utilisateur, Nom_Utilisateur, MAX(Nom_Jeu) AS Jeu_Le_Plus_Joué,
-    SUM(collections.Heure_Jouees_Collection) AS Temps_Total_Passé
+    $sql = "SELECT
+    CONCAT(UPPER(LEFT(Pren_Utilisateur, 1)), LOWER(SUBSTRING(Pren_Utilisateur, 2))) AS Pren_Utilisateur,
+    UPPER(Nom_Utilisateur) AS Nom_Utilisateur,
+	Most_Played.Nom_Jeu AS Jeu_Le_Plus_Joue,
+    SUM(collections.Heure_Jouees_Collection) AS Temps_Total_Passe
     FROM UTILISATEURS
     INNER JOIN COLLECTIONS ON UTILISATEURS.Id_Utilisateur = COLLECTIONS.Id_Utilisateur
     INNER JOIN JEUX ON COLLECTIONS.Id_Jeu = JEUX.Id_Jeu
+    INNER JOIN (
+                SELECT collections.Id_Utilisateur, collections.Id_Jeu, collections.Heure_Jouees_Collection, jeux.Nom_Jeu FROM collections
+				INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
+				ORDER BY collections.Heure_Jouees_Collection DESC
+				LIMIT 1)
+            AS Most_Played ON Most_Played.Id_Utilisateur = UTILISATEURS.Id_Utilisateur
     GROUP BY UTILISATEURS.Id_Utilisateur
-    ORDER BY Temps_Total_Passé DESC
+    ORDER BY Temps_Total_Passe DESC
     LIMIT 20;";
 
 

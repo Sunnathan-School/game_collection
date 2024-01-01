@@ -107,7 +107,7 @@ function getUserGames($userId)
 function getUserGameData($userId, $gameId)
 {
     global $bdd;
-    $sql = "SELECT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, jeux.Desc_Jeu,
+    $sql = "SELECT DISTINCT jeux.Id_Jeu,jeux.Nom_Jeu,jeux.Couverture_Jeu, jeux.Desc_Jeu,
        collections.Heure_Jouees_Collection AS Heure_jouees FROM collections
 INNER JOIN jeux ON collections.Id_Jeu=jeux.Id_Jeu
 LEFT JOIN disponible ON jeux.Id_Jeu=disponible.Id_Jeu
